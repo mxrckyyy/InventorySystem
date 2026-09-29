@@ -1,0 +1,22 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Production builds
+dist/
+dist-ssr/
+
+# Local Environment & Configs
+.env
+.env.local
+.env.*.local
+
+# Editor & OS files
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Logs & Caches
+*.log
+.vite/
+.eslintcache

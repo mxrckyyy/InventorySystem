@@ -34,14 +34,18 @@ PROJECT CONTEXT & ARCHITECTURE: INVENTORY MANAGEMENT SYSTEM
 
 [PROJECT STRUCTURE]
 - src/main.jsx -> React entry, wraps app in AuthProvider
-- src/App.jsx -> layout, view toggle (Table / Analytics), route guards
+- src/App.jsx -> layout, view toggle (Table / Analytics), route guards,
+  LowStockBanner quick-action handlers (handleLocateProduct / handleShowAllAlerts)
 - src/context/AuthContext.jsx -> user, role (Admin/Viewer), login, signup, logout
 - src/hooks/useInventory.js -> product CRUD, filters, realtime subscriptions
 - src/lib/supabaseClient.js -> Supabase singleton
 - src/utils/exportCsv.js -> CSV builder + browser download
-- src/components/common/ -> Header, ControlBar, AuthGate, LowStockBanner
+- src/components/auth/ -> AuthModal (dark-neon login/signup modal form)
+- src/components/common/ -> Header, ControlBar, AuthGate (renders AuthModal),
+  LowStockBanner (expandable alert drawer)
 - src/components/dashboard/ -> MetricsBar, StatCard, AnalyticsView
-- src/components/inventory/ -> ProductTable, ProductModal, StockLogModal
+- src/components/inventory/ -> ProductTable (tr id=product-row-{id} for jump
+  scrolling), ProductModal, StockLogModal
 
 [AUTH & ROLE-BASED ACCESS]
 - Auth gate: unauthenticated users only see AuthGate (login / signup).
@@ -60,15 +64,22 @@ Phase 2 - useInventory hook, metrics (total/valuation/low/out), ControlBar
 Phase 3 - StockLogModal audit slide-over (per product or all logs),
   CSV export of filtered dataset, Supabase Realtime `postgres_changes`
   on products + stock_logs with channel cleanup on unmount.
-Phase 4 - Auth + Admin/Viewer roles, AnalyticsView (Recharts: top-5
-  valuation bar, category donut, 14-day stock movement area),
-  LowStockBanner with Alert Manager row highlighting, README.md,
-  .env.example, vercel.json SPA rewrites, vendor chunk splitting.
+Phase 4 - Auth + Admin/Viewer roles, AuthModal (src/components/auth/AuthModal.jsx,
+  full-screen dark-neon login/signup modal; AuthGate is a thin wrapper),
+  AnalyticsView (Recharts: top-5 valuation bar, category donut, 14-day stock
+  movement area), LowStockBanner expandable alert drawer with per-product
+  "Jump" links (switch to table view, set search to SKU, highlight rows,
+  smooth-scroll to product-row-{id}) + "Show all in table" action,
+  Alert Manager row highlighting, README.md, .env.example, vercel.json SPA
+  rewrites, vendor chunk splitting.
 
 [VIEW STATES]
 - App tabs: "Inventory Table" (default) and "Analytics Dashboard".
 - LowStockBanner renders only when quantity <= min_reorder_level items exist.
 - Alert Manager toggles highlightAlerts -> amber row highlight in ProductTable.
+- "View N Alerts" expands the drawer (chips hidden while expanded); each
+  critical product row jumps to it in the table (filters by SKU first).
+- "Show all in table" clears search/category, enables highlighting, table view.
 
 [INSTRUCTION FOR ALL AGENTS]
 Scan `project_context.txt` first before executing any code modifications or component creation.

@@ -96,6 +96,27 @@ export default function App() {
     exportToCSV(filteredProducts, filename);
   };
 
+  const handleLocateProduct = (product) => {
+    if (!product) return;
+    setView(VIEW_TABLE);
+    setSelectedCategory('all');
+    setSearchTerm(product.sku || product.name || '');
+    setHighlightAlerts(true);
+
+    window.setTimeout(() => {
+      document
+        .getElementById(`product-row-${product.id}`)
+        ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }, 60);
+  };
+
+  const handleShowAllAlerts = () => {
+    setView(VIEW_TABLE);
+    setSelectedCategory('all');
+    setSearchTerm('');
+    setHighlightAlerts(true);
+  };
+
   if (initializing) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-slate-950">
@@ -127,6 +148,8 @@ export default function App() {
           products={products}
           highlightActive={highlightAlerts}
           onToggleHighlight={() => setHighlightAlerts((prev) => !prev)}
+          onLocate={handleLocateProduct}
+          onShowAll={handleShowAllAlerts}
         />
 
         <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">

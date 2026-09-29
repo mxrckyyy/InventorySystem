@@ -25,7 +25,7 @@ A full-featured inventory management dashboard for tracking products, stock leve
 | **Search & Filters** | Live search by name/SKU, dynamic category dropdown filter |
 | **Audit Trail** | Slide-over stock history panel per product or global, newest first |
 | **Analytics** | Top-5 valuation bar chart, category donut chart, 14-day stock movement area chart (Recharts) |
-| **Alerts** | Low-stock banner + Alert Manager that highlights at-threshold rows |
+| **Alerts** | Expandable low-stock banner drawer with per-product **Jump** links (filters + scrolls to the row), plus Alert Manager row highlighting |
 | **CSV Export** | Export the active (filtered) dataset with RFC-4180 escaping |
 | **Realtime** | `postgres_changes` subscriptions on `products` + `stock_logs` |
 | **Authentication** | Supabase email/password auth with **Admin vs Viewer** role gate |
@@ -47,6 +47,7 @@ InventorySystem/
 │   ├── index.css               # Tailwind directives
 │   ├── assets/
 │   ├── components/
+│   │   ├── auth/               # AuthModal (dark-neon login / signup modal)
 │   │   ├── common/             # Header, ControlBar, AuthGate, LowStockBanner
 │   │   ├── dashboard/          # MetricsBar, StatCard, AnalyticsView
 │   │   └── inventory/          # ProductTable, ProductModal, StockLogModal

@@ -112,6 +112,7 @@ export default function ProductTable({
                 return (
                   <tr
                     key={product.id}
+                    id={`product-row-${product.id}`}
                     className={`border-b border-slate-800/70 transition hover:bg-slate-950/50 ${
                       isFlagged ? 'bg-amber-500/[0.07]' : ''
                     }`}
