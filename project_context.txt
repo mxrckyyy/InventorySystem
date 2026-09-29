@@ -1,0 +1,75 @@
+======================================================================
+PROJECT CONTEXT & ARCHITECTURE: INVENTORY MANAGEMENT SYSTEM
+======================================================================
+
+[TECH STACK]
+- Frontend: React (Vite), Tailwind CSS, Lucide-React, Recharts
+- Database & Backend: Supabase (PostgreSQL, Auth, Realtime)
+
+[ENVIRONMENT VARIABLES]
+- VITE_SUPABASE_URL=https://gpqvawxcbapkwbziqyhi.supabase.co
+- VITE_SUPABASE_ANON_KEY=sb_publishable_L0WJCZr01lALdSZjCApGfA_TMHg5XBA
+
+[DATABASE SCHEMA]
+1. `products` Table:
+   - id: UUID (Primary Key)
+   - sku: VARCHAR(50) (Unique)
+   - name: VARCHAR(255)
+   - category: VARCHAR(100)
+   - quantity: INT
+   - min_reorder_level: INT
+   - unit_price: DECIMAL(10, 2)
+   - supplier: VARCHAR(100)
+   - created_at: TIMESTAMPTZ
+
+2. `stock_logs` Table:
+   - id: UUID (Primary Key)
+   - product_id: UUID (Foreign Key -> products.id)
+   - change_amount: INT
+   - type: VARCHAR(50)
+   - created_at: TIMESTAMPTZ
+
+[RLS STATUS]
+- Row Level Security (RLS) is disabled for development.
+
+[PROJECT STRUCTURE]
+- src/main.jsx -> React entry, wraps app in AuthProvider
+- src/App.jsx -> layout, view toggle (Table / Analytics), route guards
+- src/context/AuthContext.jsx -> user, role (Admin/Viewer), login, signup, logout
+- src/hooks/useInventory.js -> product CRUD, filters, realtime subscriptions
+- src/lib/supabaseClient.js -> Supabase singleton
+- src/utils/exportCsv.js -> CSV builder + browser download
+- src/components/common/ -> Header, ControlBar, AuthGate, LowStockBanner
+- src/components/dashboard/ -> MetricsBar, StatCard, AnalyticsView
+- src/components/inventory/ -> ProductTable, ProductModal, StockLogModal
+
+[AUTH & ROLE-BASED ACCESS]
+- Auth gate: unauthenticated users only see AuthGate (login / signup).
+- Roles: `user.user_metadata.role` = "admin" | "viewer".
+  * Admin: full read + write (Add, Edit, Delete, stock +/-).
+  * Viewer: read-only; write buttons disabled with "Admin access required".
+- Signup writes role via supabase.auth.signUp options.data.role.
+- Header shows role badge (Admin/Viewer), user email and Logout.
+- main.jsx renders <AuthProvider>; App returns AuthGate when no session.
+
+[FEATURES - COMPLETED PHASES]
+Phase 1/1.5 - Scaffolding, Tailwind dark/neon theme, Supabase client.
+Phase 2 - useInventory hook, metrics (total/valuation/low/out), ControlBar
+  search + category filter, ProductTable with status badges and inline
+  +/- stock controls, add/edit ProductModal with validation.
+Phase 3 - StockLogModal audit slide-over (per product or all logs),
+  CSV export of filtered dataset, Supabase Realtime `postgres_changes`
+  on products + stock_logs with channel cleanup on unmount.
+Phase 4 - Auth + Admin/Viewer roles, AnalyticsView (Recharts: top-5
+  valuation bar, category donut, 14-day stock movement area),
+  LowStockBanner with Alert Manager row highlighting, README.md,
+  .env.example, vercel.json SPA rewrites, vendor chunk splitting.
+
+[VIEW STATES]
+- App tabs: "Inventory Table" (default) and "Analytics Dashboard".
+- LowStockBanner renders only when quantity <= min_reorder_level items exist.
+- Alert Manager toggles highlightAlerts -> amber row highlight in ProductTable.
+
+[INSTRUCTION FOR ALL AGENTS]
+Scan `project_context.txt` first before executing any code modifications or component creation.
+======================================================================
