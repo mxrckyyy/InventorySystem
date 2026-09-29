@@ -6,9 +6,11 @@ PROJECT CONTEXT & ARCHITECTURE: INVENTORY MANAGEMENT SYSTEM
 - Frontend: React (Vite), Tailwind CSS, Lucide-React, Recharts
 - Database & Backend: Supabase (PostgreSQL, Auth, Realtime)
 
-[ENVIRONMENT VARIABLES]
-- VITE_SUPABASE_URL=https://gpqvawxcbapkwbziqyhi.supabase.co
-- VITE_SUPABASE_ANON_KEY=sb_publishable_L0WJCZr01lALdSZjCApGfA_TMHg5XBA
+[ENVIRONMENT VARIABLES] (SAFE PLACEHOLDERS - real values live only in the
+untracked local .env.local; never commit credentials to the repository)
+- VITE_SUPABASE_URL=https://your-supabase-project-ref.supabase.co
+- VITE_SUPABASE_ANON_KEY=your-supabase-anon-key-here
+- DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.your-supabase-project.supabase.co:5432/postgres
 
 [DATABASE SCHEMA]
 1. `products` Table:
@@ -80,6 +82,17 @@ Phase 4 - Auth + Admin/Viewer roles, AuthModal (src/components/auth/AuthModal.js
 - "View N Alerts" expands the drawer (chips hidden while expanded); each
   critical product row jumps to it in the table (filters by SKU first).
 - "Show all in table" clears search/category, enables highlighting, table view.
+
+[CREDENTIAL & DOCUMENTATION POLICY]
+- README.md, .env.example and this context file use ONLY safe generic
+  placeholders for environment setup:
+  * VITE_SUPABASE_URL=https://your-supabase-project-ref.supabase.co
+  * VITE_SUPABASE_ANON_KEY=your-supabase-anon-key-here
+  * DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.your-supabase-project.supabase.co:5432/postgres
+- Real project URLs/keys belong exclusively in the local, gitignored
+  `.env.local` (see .gitignore: `.env`, `.env.local`, `.env.*.local`).
+- Never commit or document service-role keys, database passwords, or
+  personal API tokens anywhere in the repository.
 
 [INSTRUCTION FOR ALL AGENTS]
 Scan `project_context.txt` first before executing any code modifications or component creation.

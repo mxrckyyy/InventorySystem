@@ -123,11 +123,12 @@ cp .env.example .env.local
 ```
 
 ```env
-VITE_SUPABASE_URL=https://your-project-ref.supabase.co
-VITE_SUPABASE_ANON_KEY=your-anon-or-publishable-key
+VITE_SUPABASE_URL=https://your-supabase-project-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=your-supabase-anon-key-here
+DATABASE_URL=postgresql://postgres:[YOUR-PASSWORD]@db.your-supabase-project.supabase.co:5432/postgres
 ```
 
-Only `VITE_`-prefixed variables are exposed to the browser — never put service-role keys here.
+Only `VITE_`-prefixed variables are exposed to the browser — never put service-role keys here. `DATABASE_URL` is optional and only needed for direct database tooling (migrations, seeds); it is never read by the frontend.
 
 ---
 
