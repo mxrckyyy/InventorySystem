@@ -1,4 +1,4 @@
-﻿import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+﻿import { Suspense, lazy, useMemo, useState } from 'react';
 import { CircleAlert, X } from 'lucide-react';
 import useInventory from './hooks/useInventory.js';
 import { useAuth } from './context/AuthContext.jsx';
@@ -46,36 +46,8 @@ export default function App() {
   const [highlightAlerts, setHighlightAlerts] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [quickFilter, setQuickFilter] = useState('all');
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
-    try {
-      return window.localStorage.getItem('inv-sidebar-collapsed') === '1';
-    } catch {
-      return false;
-    }
-  });
 
-  useEffect(() => {
-    try {
-      window.localStorage.setItem(
-        'inv-sidebar-collapsed',
-        sidebarCollapsed ? '1' : '0'
-      );
-    } catch {
-      /* storage unavailable â€” state stays session-only */
-    }
-  }, [sidebarCollapsed]);
-
-  const handleToggleSidebar = () => {
-    const isDesktop =
-      typeof window !== 'undefined' &&
-      window.matchMedia('(min-width: 1024px)').matches;
-
-    if (isDesktop) {
-      setSidebarCollapsed((prev) => !prev);
-      return;
-    }
-    setSidebarOpen((prev) => !prev);
-  };
+  const handleToggleSidebar = () => setSidebarOpen((prev) => !prev);
 
   const alertCount = useMemo(
     () =>
@@ -218,23 +190,16 @@ export default function App() {
         view={view}
         alertCount={alertCount}
         alertsActive={highlightAlerts}
-        collapsed={sidebarCollapsed}
-        onToggleCollapse={() => setSidebarCollapsed((prev) => !prev)}
         onNavigate={handleNavigate}
         onOpenLogs={() => handleViewLogs(null)}
         mobileOpen={sidebarOpen}
         onMobileClose={() => setSidebarOpen(false)}
       />
 
-      <div
-        className={`relative transition-[padding] duration-300 ease-out ${
-          sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'
-        }`}
-      >
-        <div className="mx-auto w-full max-w-6xl space-y-6 px-4 py-6 sm:px-6 lg:px-6">
+      <div className="relative">
+        <div className="w-full max-w-none space-y-6 px-4 md:px-8 py-6">
           <Header
             productCount={products.length}
-            sidebarCollapsed={sidebarCollapsed}
             onToggleSidebar={handleToggleSidebar}
           />
 
@@ -251,7 +216,7 @@ export default function App() {
           {!isAdmin ? (
             <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#273544] bg-[#151D24] px-3 py-2 text-sm text-slate-300">
               <CircleAlert size={15} className="text-emerald-400" />
-              Viewer mode Â· read-only
+              Viewer mode · read-only
             </span>
           ) : null}
 

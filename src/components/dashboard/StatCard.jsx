@@ -24,13 +24,17 @@ export default function StatCard({ title, value, icon: Icon, tone = 'cyan', hint
     <div className="relative overflow-hidden rounded-2xl border border-[#222E3A] bg-[#151D24] p-6 transition-shadow hover:border-emerald-500/40">
       <div className={`absolute inset-x-0 top-0 h-[2px] ${palette.bar}`} />
 
-      <div className="flex items-start justify-between gap-3">
+      <div className="flex justify-between items-start gap-2">
         <div className="min-w-0">
           <p className="text-sm font-medium uppercase tracking-wider text-slate-300">
             {title}
           </p>
-          <p className="mt-2 truncate text-3xl font-bold text-white">{value}</p>
-          {hint ? <p className="mt-1 truncate text-sm text-slate-300">{hint}</p> : null}
+          <p className="mt-2 text-lg sm:text-xl lg:text-2xl font-bold text-white whitespace-nowrap">
+            {value}
+          </p>
+          {hint ? (
+            <p className="mt-1 truncate text-sm text-slate-300">{hint}</p>
+          ) : null}
         </div>
 
         <div

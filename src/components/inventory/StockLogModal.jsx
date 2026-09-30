@@ -7,15 +7,15 @@ function toMessage(error) {
 }
 
 function formatTimestamp(value) {
-  if (!value) return 'â€”';
+  if (!value) return '—';
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return 'â€”';
+  if (Number.isNaN(date.getTime())) return '—';
   return date.toLocaleString();
 }
 
 function shortId(id) {
-  if (!id) return 'â€”';
-  return `${String(id).slice(0, 8)}â€¦`;
+  if (!id) return '—';
+  return `${String(id).slice(0, 8)}…`;
 }
 
 export default function StockLogModal({ isOpen, product = null, products = [], onClose }) {
@@ -86,7 +86,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
   };
 
   const heading = product
-    ? `Stock History â€” ${product.name}`
+    ? `Stock History — ${product.name}`
     : 'Stock Audit Trail';
 
   return (
@@ -106,8 +106,8 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
               <h2 className="text-base font-semibold text-slate-50">{heading}</h2>
               <p className="text-sm text-slate-300">
                 {product
-                  ? `SKU ${product.sku} Â· most recent first`
-                  : 'All stock movements Â· most recent first'}
+                  ? `SKU ${product.sku} · most recent first`
+                  : 'All stock movements · most recent first'}
               </p>
             </div>
           </div>
@@ -211,9 +211,9 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
 
         <div className="flex items-center justify-between border-t border-[#1E293B] px-5 py-3 text-sm text-slate-300">
           <span>
-            {loading ? 'Loadingâ€¦' : `${logs.length} log${logs.length === 1 ? '' : 's'}`}
+            {loading ? 'Loading…' : `${logs.length} log${logs.length === 1 ? '' : 's'}`}
           </span>
-          <span>Newest first Â· max 250 entries</span>
+          <span>Newest first · max 250 entries</span>
         </div>
       </aside>
     </div>

@@ -67,7 +67,7 @@ export default function LowStockBanner({
             >
               {critical.length} item{critical.length === 1 ? '' : 's'} at or below reorder
               level
-              {outOfStock > 0 ? ` Â· ${outOfStock} out of stock` : ''}
+              {outOfStock > 0 ? ` · ${outOfStock} out of stock` : ''}
             </p>
 
             {!expanded ? (
@@ -180,7 +180,7 @@ export default function LowStockBanner({
                       </span>
                       <span className="block truncate font-mono text-sm text-slate-400">
                         {product.sku}
-                        {product.category ? ` Â· ${product.category}` : ''}
+                        {product.category ? ` · ${product.category}` : ''}
                       </span>
                     </span>
 

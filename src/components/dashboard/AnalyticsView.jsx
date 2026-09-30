@@ -66,7 +66,7 @@ function EmptyState({ message }) {
 
 function truncateLabel(value, max = 18) {
   const text = String(value || 'Unnamed');
-  return text.length > max ? `${text.slice(0, max - 1)}â€¦` : text;
+  return text.length > max ? `${text.slice(0, max - 1)}…` : text;
 }
 
 function dayKey(date) {
@@ -183,7 +183,7 @@ export default function AnalyticsView({ products = [] }) {
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <Panel
           title="Top 5 Highest Valuation"
-          subtitle="Unit price Ã— quantity"
+          subtitle="Unit price × quantity"
           icon={ChartColumnBig}
         >
           {topProducts.length === 0 ? (
@@ -229,7 +229,7 @@ export default function AnalyticsView({ products = [] }) {
 
         <Panel
           title="Inventory by Category"
-          subtitle={`${categoryDistribution.length} categor${categoryDistribution.length === 1 ? 'y' : 'ies'} Â· ${products.length} products`}
+          subtitle={`${categoryDistribution.length} categor${categoryDistribution.length === 1 ? 'y' : 'ies'} · ${products.length} products`}
           icon={Database}
         >
           {categoryDistribution.length === 0 ? (
@@ -283,7 +283,7 @@ export default function AnalyticsView({ products = [] }) {
 
       <Panel
         title="Stock Movement Trend"
-        subtitle={`Last 14 days Â· ${totalMovement} log entr${totalMovement === 1 ? 'y' : 'ies'} (net change per day)`}
+        subtitle={`Last 14 days · ${totalMovement} log entr${totalMovement === 1 ? 'y' : 'ies'} (net change per day)`}
         icon={Activity}
       >
         {logsLoading ? (

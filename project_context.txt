@@ -38,8 +38,10 @@ untracked local .env.local; never commit credentials to the repository)
 
 [PROJECT STRUCTURE]
 - src/main.jsx -> React entry, wraps app in AuthProvider
-- src/App.jsx -> layout, sidebar wiring (desktop rail + mobile drawer),
-  route guards, quick-filter state, LowStockBanner quick-action handlers
+- src/App.jsx -> layout with NO fixed sidebar column; full-width container
+  (`w-full max-w-none px-4 md:px-8 py-6`), hamburger drawer wiring
+  (sidebarOpen state -> Sidebar overlay), route guards, quick-filter state,
+  LowStockBanner quick-action handlers
   (handleLocateProduct / handleShowAllAlerts / handleNavigate)
 - src/context/AuthContext.jsx -> user, role (Admin/Viewer), login, signup, logout
 - src/hooks/useInventory.js -> product CRUD, filters, realtime subscriptions
@@ -62,20 +64,23 @@ untracked local .env.local; never commit credentials to the repository)
   AuthGate, LowStockBanner (emerald CTAs, amber/red warning semantics kept)
 - src/components/dashboard/ -> MetricsBar, StatCard (bg-[#151D24]
   border-[#222E3A], emerald icon accents; amber/rose tones only for warning
-  metrics), AnalyticsView (emerald chart palette, #151D24 panels)
+  metrics; value row `flex justify-between items-start gap-2` with dynamic
+  text-lg sm:text-xl lg:text-2xl whitespace-nowrap so amounts never
+  truncate), AnalyticsView (emerald chart palette, #151D24 panels)
 - src/components/inventory/ -> ProductTable (DARK card bg-[#151D24], header
   row bg-[#121920] text-slate-300 uppercase xs, alternating #151D24/#121920
   rows, borders #1E293B, text-slate-100/white, emerald pencil + red trash
   icon actions; tr id=product-row-{id} for jump scrolling), ProductModal
   (auto-SKU, numeric focus/blur UX, red field errors, success screen with
   green check circle + View Inventory / Add Another Product), StockLogModal
-- src/components/layout/Sidebar.jsx -> primary nav: Dashboard, Analytics,
-  Low-Stock Alerts (badge count), Audit Logs. Rounded PILL items; active =
-  bg-[#00D06C] text-black font-semibold; logo = green isometric cube (lucide
-  Box) + "Inventory System" branding. COLLAPSIBLE: desktop rail w-64 <->
-  w-20 icon-only (footer chevron + Header Menu toggle), persisted in
-  localStorage key 'inv-sidebar-collapsed'; mobile overlay drawer
-  (Escape/backdrop close, body lock)
+- src/components/layout/Sidebar.jsx -> hamburger SLIDE-OUT DRAWER only (no
+  fixed/desktop rail): `fixed inset-y-0 left-0 w-64 bg-[#0D131A] z-50
+  shadow-2xl border-r border-[#222E3A]` panel + black/70 backdrop-blur
+  overlay, animate-slide-in-left, X close button top-right, Escape/backdrop
+  close and body scroll lock. Nav pills: Dashboard, Analytics, Low-Stock
+  Alerts (badge count), Audit Logs - active = bg-[#00D06C] text-black
+  font-semibold; green isometric cube logo + "Inventory System" branding.
+  Opened by the top-left Menu button in Header; closes after any navigate.
 
 [AUTH & ROLE-BASED ACCESS]
 - Auth gate: unauthenticated users only see AuthGate (login / signup).
@@ -160,6 +165,19 @@ Phase 8 - TOOLBAR / CONTROL BAR LAYOUT REFACTOR:
   * Toolbar wrapped in `p-4 bg-slate-900/50 border border-slate-800
     rounded-xl`; consistent h-10 heights on inputs, selects, pills and
     buttons; result counter is plain secondary text (no badge/button look).
+Phase 9 - NO-SIDEBAR FULL-WIDTH LAYOUT + HAMBURGER DRAWER:
+  * Removed the permanent left sidebar column and desktop collapse logic
+    (localStorage 'inv-sidebar-collapsed' state deleted). Main content
+    spans full screen width: `w-full max-w-none px-4 md:px-8 py-6`.
+  * Navigation lives in a hamburger slide-out drawer opened from the
+    top-left Menu button: fixed inset-y-0 left-0 w-64 bg-[#0D131A] z-50
+    shadow-2xl border-r border-[#222E3A], backdrop-blur overlay, X close
+    button top-right, slide-in-left animation (all breakpoints).
+  * StatCard KPI values never truncate: dynamic sizing
+    `text-lg sm:text-xl lg:text-2xl font-bold text-white whitespace-nowrap`
+    inside `flex justify-between items-start gap-2` with p-6 padding
+    (e.g. P1,989,850.00 renders in full with digit grouping).
+  * Currency stays "P" + Intl grouping + 2 decimals (₱ or P accepted).
 
 [ACCESSIBILITY & UX RULES]
 - Body/label text >= 14px (tailwind fontSize.xs/sm overridden; text-[11px]
@@ -172,11 +190,11 @@ Phase 8 - TOOLBAR / CONTROL BAR LAYOUT REFACTOR:
 - Reduced-motion media query disables animations/transitions.
 
 [VIEW STATES]
-- Primary nav lives in Sidebar: "Dashboard" (Inventory Table, default),
+- Primary nav lives in the hamburger DRAWER (Sidebar.jsx), opened by the
+  top-left Menu button in Header: "Dashboard" (Inventory Table, default),
   "Analytics", "Low-Stock Alerts" (badge = critical count), "Audit Logs".
-  Top-left hamburger Menu button: mobile opens overlay drawer; desktop
-  collapses rail to icon-only (main content pl-20 collapsed / pl-64
-  expanded via lg:pl-* on the App wrapper, localStorage persistence).
+  Drawer works at every breakpoint; main layout has no fixed sidebar and
+  uses full width (no lg:pl-* offsets, no max-w cap).
 - Inventory view: ControlBar header card (Inventory title + description +
   search) sits above the dark ProductTable card; Analytics view hides
   ControlBar (search/filters only affect the table).
