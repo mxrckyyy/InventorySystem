@@ -1,12 +1,13 @@
 # Inventory Management System
 
-> A sleek dark/neon inventory operations console — real-time stock tracking, role-based access, analytics, audit trails and CSV export, powered by React + Supabase.
+> A soft dark inventory operations console — real-time stock tracking, role-based access, analytics, audit trails and one-click Excel export, powered by React + Supabase.
 
 ![React](https://img.shields.io/badge/React-18-61DAFB?style=flat-square&logo=react&logoColor=black)
 ![Vite](https://img.shields.io/badge/Vite-5-646CFF?style=flat-square&logo=vite&logoColor=white)
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind_CSS-3-38B2AC?style=flat-square&logo=tailwindcss&logoColor=white)
 ![Supabase](https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E?style=flat-square&logo=supabase&logoColor=white)
 ![Recharts](https://img.shields.io/badge/Recharts-2-FF6B6B?style=flat-square)
+![SheetJS](https://img.shields.io/badge/SheetJS-%28xlsx%29-2F6F4E?style=flat-square)
 ![License](https://img.shields.io/badge/license-MIT-lightgrey?style=flat-square)
 
 ---
@@ -22,14 +23,18 @@ A full-featured inventory management dashboard for tracking products, stock leve
 | **Dashboard Metrics** | Total products, total valuation, low-stock count, out-of-stock count |
 | **Product Management** | Add, edit, delete products with validated modal form |
 | **Stock Control** | Inline `+1` / `-1` stock adjustments with automatic `stock_logs` audit entries |
-| **Search & Filters** | Live search by name/SKU, dynamic category dropdown filter |
+| **Search & Filters** | Live search by name/SKU, dynamic category dropdown filter, quick-filter chips (All / Low Stock / Out of Stock) |
 | **Audit Trail** | Slide-over stock history panel per product or global, newest first |
 | **Analytics** | Top-5 valuation bar chart, category donut chart, 14-day stock movement area chart (Recharts) |
 | **Alerts** | Expandable low-stock banner drawer with per-product **Jump** links (filters + scrolls to the row), plus Alert Manager row highlighting |
-| **CSV Export** | Export the active (filtered) dataset with RFC-4180 escaping |
+| **Excel Export** | One-click `.xlsx` export (SheetJS) with structured headers, auto-fitted column widths, autofilter and typed numeric/currency/date cells |
+| **Navigation** | Responsive sidebar drawer — Dashboard, Analytics, Low-Stock Alerts, Audit Logs (persistent on desktop, hamburger overlay on mobile) |
+| **Product IDs** | Auto-generated unique SKU (`PRD-YYYYMMDD-XXXX`) with manual override + regenerate |
+| **Currency** | Philippine Peso (₱) formatting everywhere via `Intl.NumberFormat('en-PH')` |
+| **Accessibility** | ≥14px body text, 44px touch targets, high-contrast focus rings, reduced-motion support |
 | **Realtime** | `postgres_changes` subscriptions on `products` + `stock_logs` |
 | **Authentication** | Supabase email/password auth with **Admin vs Viewer** role gate |
-| **Responsive UI** | Dark/neon Tailwind theme, mobile → ultrawide layouts |
+| **Responsive UI** | Soft dark neutral (slate) theme, mobile → ultrawide layouts |
 
 ---
 
@@ -43,26 +48,30 @@ InventorySystem/
 ├── project_context.txt         # Architecture contract for agents
 ├── src/
 │   ├── main.jsx                # React entry + AuthProvider
-│   ├── App.jsx                 # Layout, view toggle, guards
-│   ├── index.css               # Tailwind directives
+│   ├── App.jsx                 # Layout, sidebar wiring, route guards
+│   ├── index.css               # Tailwind directives + a11y base styles
 │   ├── assets/
 │   ├── components/
-│   │   ├── auth/               # AuthModal (dark-neon login / signup modal)
+│   │   ├── auth/               # AuthModal (dark login / signup modal)
 │   │   ├── common/             # Header, ControlBar, AuthGate, LowStockBanner
 │   │   ├── dashboard/          # MetricsBar, StatCard, AnalyticsView
-│   │   └── inventory/          # ProductTable, ProductModal, StockLogModal
+│   │   ├── inventory/          # ProductTable, ProductModal, StockLogModal
+│   │   └── layout/             # Sidebar (responsive nav drawer)
 │   ├── context/AuthContext.jsx # user, role, login, signup, logout
 │   ├── hooks/useInventory.js   # CRUD + filters + realtime
 │   ├── lib/supabaseClient.js   # Supabase singleton
-│   └── utils/exportCsv.js      # CSV builder + download
+│   └── utils/
+│       ├── currency.js         # ₱ PHP Intl formatter
+│       └── exportExcel.js      # SheetJS (.xlsx) builder + download
 ```
 
-**Flow:** `AuthProvider` gates the app → `useInventory` owns all product state (CRUD, filters, realtime) → presentational components render metrics, table, analytics and modals → every mutation is persisted to Supabase and mirrored back through realtime events.
+**Flow:** `AuthProvider` gates the app → `Sidebar` drives view state (table / analytics / alerts / audit logs) → `useInventory` owns all product state (CRUD, filters, realtime) → presentational components render metrics, table, analytics and modals → every mutation is persisted to Supabase and mirrored back through realtime events.
 
 | Layer | Technology |
 | --- | --- |
 | Frontend | React 18, Vite 5, Tailwind CSS 3, Lucide-React icons |
 | Charts | Recharts 2 |
+| Exports | SheetJS (`xlsx`) → native `.xlsx` workbooks |
 | Backend / DB | Supabase (PostgreSQL + Auth + Realtime) |
 | Deployment | Vercel / Netlify (static SPA) |
 
@@ -181,7 +190,7 @@ npm run preview    # preview the production build
 | Capability | Admin | Viewer |
 | --- | :---: | :---: |
 | View dashboard, analytics, audit logs | ✅ | ✅ |
-| Search / filter / CSV export | ✅ | ✅ |
+| Search / filter / Excel export | ✅ | ✅ |
 | Add / Edit / Delete products | ✅ | ❌ |
 | Stock `+1` / `-1` adjustments | ✅ | ❌ |
 

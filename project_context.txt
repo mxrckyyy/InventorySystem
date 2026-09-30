@@ -3,8 +3,9 @@ PROJECT CONTEXT & ARCHITECTURE: INVENTORY MANAGEMENT SYSTEM
 ======================================================================
 
 [TECH STACK]
-- Frontend: React (Vite), Tailwind CSS, Lucide-React, Recharts
+- Frontend: React (Vite), Tailwind CSS, Lucide-React, Recharts, xlsx (SheetJS)
 - Database & Backend: Supabase (PostgreSQL, Auth, Realtime)
+- Currency: Philippine Peso (₱) via Intl.NumberFormat('en-PH', {currency:'PHP'})
 
 [ENVIRONMENT VARIABLES] (SAFE PLACEHOLDERS - real values live only in the
 untracked local .env.local; never commit credentials to the repository)
@@ -36,18 +37,24 @@ untracked local .env.local; never commit credentials to the repository)
 
 [PROJECT STRUCTURE]
 - src/main.jsx -> React entry, wraps app in AuthProvider
-- src/App.jsx -> layout, view toggle (Table / Analytics), route guards,
-  LowStockBanner quick-action handlers (handleLocateProduct / handleShowAllAlerts)
+- src/App.jsx -> layout, sidebar wiring (desktop rail + mobile drawer),
+  route guards, quick-filter state, LowStockBanner quick-action handlers
+  (handleLocateProduct / handleShowAllAlerts / handleNavigate)
 - src/context/AuthContext.jsx -> user, role (Admin/Viewer), login, signup, logout
 - src/hooks/useInventory.js -> product CRUD, filters, realtime subscriptions
 - src/lib/supabaseClient.js -> Supabase singleton
-- src/utils/exportCsv.js -> CSV builder + browser download
+- src/utils/currency.js -> formatPHP / formatPHPCompact (₱ formatter)
+- src/utils/exportExcel.js -> SheetJS workbook builder (typed cells, ₱ number
+  format, auto column widths, autofilter) + browser download; replaces old CSV
 - src/components/auth/ -> AuthModal (dark-neon login/signup modal form)
-- src/components/common/ -> Header, ControlBar, AuthGate (renders AuthModal),
-  LowStockBanner (expandable alert drawer)
+- src/components/common/ -> Header (hamburger trigger), ControlBar (search,
+  category, quick-filter chips, action group), AuthGate, LowStockBanner
 - src/components/dashboard/ -> MetricsBar, StatCard, AnalyticsView
 - src/components/inventory/ -> ProductTable (tr id=product-row-{id} for jump
-  scrolling), ProductModal, StockLogModal
+  scrolling), ProductModal (auto-SKU + numeric focus/blur UX), StockLogModal
+- src/components/layout/Sidebar.jsx -> primary nav: Dashboard, Analytics,
+  Low-Stock Alerts (badge count), Audit Logs; persistent w-64 rail on lg+,
+  overlay drawer with backdrop on mobile (Escape/backdrop close, body lock)
 
 [AUTH & ROLE-BASED ACCESS]
 - Auth gate: unauthenticated users only see AuthGate (login / signup).
@@ -74,14 +81,37 @@ Phase 4 - Auth + Admin/Viewer roles, AuthModal (src/components/auth/AuthModal.js
   smooth-scroll to product-row-{id}) + "Show all in table" action,
   Alert Manager row highlighting, README.md, .env.example, vercel.json SPA
   rewrites, vendor chunk splitting.
+Phase 5 - Responsive sidebar nav (src/components/layout/Sidebar.jsx) replacing
+  the old top tabs; auto-generated unique SKU (PRD-YYYYMMDD-XXXX, editable with
+  regenerate button) in ProductModal; numeric inputs clear "0" on focus and
+  restore "0" on blur; ₱ PHP currency everywhere (src/utils/currency.js);
+  Excel .xlsx export via SheetJS (src/utils/exportExcel.js) replacing CSV,
+  ControlBar reorganized into search/filters + compact action group
+  (Audit Logs, Export Excel, Add Product, quick-filter chips All/Low/Out);
+  accessibility pass: tailwind fontSize scale floors body text at 14px,
+  44px min touch targets on interactive controls, global :focus-visible
+  ring, prefers-reduced-motion support, slate-400+ text for contrast,
+  soft slate palette with muted sky accents (harsh neon glows removed).
+
+[ACCESSIBILITY & UX RULES]
+- Body/label text >= 14px (tailwind fontSize.xs/sm overridden; text-[11px]
+  removed). Interactive controls use min-h-[44px] / h-11 w-11.
+- Global focus ring: 2px solid #7dd3fc with offset (index.css).
+- Palette: neutral slate dark surfaces, sky-400 accents, low-opacity glows;
+  avoid saturated neon. Status colors keep 4.5:1+ text contrast.
+- Reduced-motion media query disables animations/transitions.
 
 [VIEW STATES]
-- App tabs: "Inventory Table" (default) and "Analytics Dashboard".
+- Primary nav lives in Sidebar: "Dashboard" (Inventory Table, default),
+  "Analytics", "Low-Stock Alerts" (badge = critical count), "Audit Logs".
+  Mobile: hamburger in Header opens overlay drawer; desktop: fixed left rail.
 - LowStockBanner renders only when quantity <= min_reorder_level items exist.
 - Alert Manager toggles highlightAlerts -> amber row highlight in ProductTable.
 - "View N Alerts" expands the drawer (chips hidden while expanded); each
   critical product row jumps to it in the table (filters by SKU first).
 - "Show all in table" clears search/category, enables highlighting, table view.
+- ControlBar quick filters: all | low | out narrow the visible table rows
+  (displayProducts in App.jsx) without touching metrics/analytics totals.
 
 [CREDENTIAL & DOCUMENTATION POLICY]
 - README.md, .env.example and this context file use ONLY safe generic

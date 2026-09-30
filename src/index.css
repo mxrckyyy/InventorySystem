@@ -4,10 +4,45 @@
 
 @layer base {
   html {
-    @apply antialiased;
+    @apply antialiased scroll-smooth;
   }
 
   body {
     @apply bg-slate-950 text-slate-100;
+    font-size: 1rem;
+    line-height: 1.5;
+  }
+
+  /* Clear, high-contrast focus ring for keyboard users on every control */
+  :where(a, button, input, select, textarea, summary, [role='button'], [tabindex]):focus-visible {
+    outline: 2px solid #7dd3fc;
+    outline-offset: 2px;
+  }
+
+  /* Age-friendly defaults: never render interactive text below 14px */
+  button,
+  input,
+  select,
+  textarea {
+    font-size: 0.9375rem;
+  }
+
+  ::selection {
+    background: rgba(125, 211, 252, 0.32);
+    color: #f8fafc;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }

@@ -3,19 +3,17 @@ import { ArrowRight, Boxes, Eye, KeyRound, Lock, Mail, ShieldCheck, Sparkles, X 
 import { ADMIN_ROLE, VIEWER_ROLE, useAuth } from '../../context/AuthContext.jsx';
 
 const inputClass =
-  'w-full rounded-xl border border-slate-800 bg-slate-950/80 px-3 py-2.5 text-sm text-slate-100 placeholder-slate-600 outline-none transition focus:border-cyan-500/60 focus:ring-2 focus:ring-cyan-500/20';
+  'w-full min-h-[44px] rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder-slate-400 outline-none transition focus:border-sky-400/70 focus:ring-2 focus:ring-sky-400/40';
 
 function Field({ label, icon: Icon, children }) {
   return (
     <label className="block">
-      <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400">
-        {label}
-      </span>
+      <span className="mb-1.5 block text-sm font-medium text-slate-300">{label}</span>
       <div className="relative">
         {Icon ? (
           <Icon
             size={16}
-            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-500"
+            className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
           />
         ) : null}
         {children}
@@ -103,57 +101,65 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
 
   return (
     <div
-      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-black/75 px-4 py-8 backdrop-blur-sm"
+      className="fixed inset-0 z-50 flex items-center justify-center overflow-y-auto bg-slate-950/90 px-4 py-8 backdrop-blur-sm"
       onMouseDown={(event) => {
         if (canClose && event.target === event.currentTarget) onClose();
       }}
     >
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(34,211,238,0.14),transparent_55%)]" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(148,163,184,0.10),transparent_60%)]" />
 
       <div className="relative w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-cyan-500/40 bg-cyan-500/10 text-cyan-300 shadow-[0_0_35px_rgba(34,211,238,0.35)]">
+          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-sky-500/40 bg-sky-500/15 text-sky-300">
             <Boxes size={28} strokeWidth={2} />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-50">
             {title || 'Inventory Management System'}
           </h1>
-          <p className="mt-1 text-sm text-slate-500">
-            {subtitle || 'Sign in to access the neon dashboard'}
+          <p className="mt-1 text-sm text-slate-300">
+            {subtitle || 'Sign in to access the inventory dashboard'}
           </p>
         </div>
 
-        <div className="relative rounded-2xl border border-cyan-500/25 bg-slate-900/90 p-6 shadow-[0_0_60px_rgba(34,211,238,0.15)] backdrop-blur">
+        <div className="relative rounded-2xl border border-slate-700 bg-slate-900 p-6 shadow-2xl">
           {canClose ? (
             <button
               type="button"
               onClick={onClose}
               aria-label="Close auth modal"
-              className="absolute right-4 top-4 flex h-8 w-8 items-center justify-center rounded-lg border border-slate-700 text-slate-400 transition hover:border-rose-500/60 hover:text-rose-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+              className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
             >
-              <X size={16} />
+              <X size={18} />
             </button>
           ) : null}
 
-          <div className="mb-5 grid grid-cols-2 gap-1 rounded-xl border border-slate-800 bg-slate-950/60 p-1">
+          <div
+            role="tablist"
+            aria-label="Authentication mode"
+            className="mb-5 grid grid-cols-2 gap-1 rounded-xl border border-slate-700 bg-slate-950/60 p-1"
+          >
             <button
               type="button"
+              role="tab"
+              aria-selected={mode === 'login'}
               onClick={() => switchMode('login')}
-              className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${
+              className={`min-h-[44px] rounded-lg px-3 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
                 mode === 'login'
-                  ? 'bg-cyan-500/15 text-cyan-300 shadow-[0_0_15px_rgba(34,211,238,0.2)]'
-                  : 'text-slate-500 hover:text-slate-300'
+                  ? 'bg-sky-500/15 text-sky-200'
+                  : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               Sign In
             </button>
             <button
               type="button"
+              role="tab"
+              aria-selected={mode === 'signup'}
               onClick={() => switchMode('signup')}
-              className={`rounded-lg px-3 py-2 text-sm font-semibold transition ${
+              className={`min-h-[44px] rounded-lg px-3 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
                 mode === 'signup'
-                  ? 'bg-cyan-500/15 text-cyan-300 shadow-[0_0_15px_rgba(34,211,238,0.2)]'
-                  : 'text-slate-500 hover:text-slate-300'
+                  ? 'bg-sky-500/15 text-sky-200'
+                  : 'text-slate-400 hover:text-slate-200'
               }`}
             >
               Create Account
@@ -185,23 +191,24 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
             </Field>
 
             {mode === 'signup' ? (
-              <div>
-                <span className="mb-1.5 block text-xs font-medium uppercase tracking-wider text-slate-400">
+              <fieldset>
+                <legend className="mb-1.5 block text-sm font-medium text-slate-300">
                   Access Role
-                </span>
+                </legend>
                 <div className="grid grid-cols-2 gap-3">
                   <button
                     type="button"
                     onClick={() => setRole(ADMIN_ROLE)}
-                    className={`flex flex-col items-start gap-1 rounded-xl border p-3 text-left transition ${
+                    aria-pressed={role === ADMIN_ROLE}
+                    className={`flex min-h-[44px] flex-col items-start gap-1 rounded-xl border p-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
                       role === ADMIN_ROLE
-                        ? 'border-cyan-500/50 bg-cyan-500/10 text-cyan-200'
-                        : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700'
+                        ? 'border-sky-400/60 bg-sky-500/15 text-sky-100'
+                        : 'border-slate-700 bg-slate-950/60 text-slate-300 hover:border-slate-500'
                     }`}
                   >
                     <ShieldCheck size={16} />
                     <span className="text-sm font-semibold">Admin</span>
-                    <span className="text-[11px] leading-snug opacity-70">
+                    <span className="text-sm leading-snug text-slate-400">
                       Full read + write access
                     </span>
                   </button>
@@ -209,30 +216,37 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
                   <button
                     type="button"
                     onClick={() => setRole(VIEWER_ROLE)}
-                    className={`flex flex-col items-start gap-1 rounded-xl border p-3 text-left transition ${
+                    aria-pressed={role === VIEWER_ROLE}
+                    className={`flex min-h-[44px] flex-col items-start gap-1 rounded-xl border p-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
                       role === VIEWER_ROLE
-                        ? 'border-cyan-500/50 bg-cyan-500/10 text-cyan-200'
-                        : 'border-slate-800 bg-slate-950/60 text-slate-400 hover:border-slate-700'
+                        ? 'border-sky-400/60 bg-sky-500/15 text-sky-100'
+                        : 'border-slate-700 bg-slate-950/60 text-slate-300 hover:border-slate-500'
                     }`}
                   >
                     <Eye size={16} />
                     <span className="text-sm font-semibold">Viewer</span>
-                    <span className="text-[11px] leading-snug opacity-70">
+                    <span className="text-sm leading-snug text-slate-400">
                       Read-only, actions disabled
                     </span>
                   </button>
                 </div>
-              </div>
+              </fieldset>
             ) : null}
 
             {error ? (
-              <p className="rounded-lg border border-rose-500/40 bg-rose-500/10 px-3 py-2 text-xs text-rose-300">
+              <p
+                role="alert"
+                className="rounded-lg border border-rose-400/50 bg-rose-500/15 px-3 py-2.5 text-sm text-rose-100"
+              >
                 {error}
               </p>
             ) : null}
 
             {info ? (
-              <p className="rounded-lg border border-cyan-500/40 bg-cyan-500/10 px-3 py-2 text-xs text-cyan-300">
+              <p
+                role="status"
+                className="rounded-lg border border-sky-400/50 bg-sky-500/15 px-3 py-2.5 text-sm text-sky-100"
+              >
                 {info}
               </p>
             ) : null}
@@ -240,7 +254,7 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex w-full items-center justify-center gap-2 rounded-xl border border-cyan-400/40 bg-cyan-500/15 px-5 py-3 text-sm font-semibold text-cyan-300 transition hover:bg-cyan-500/25 hover:shadow-[0_0_25px_rgba(34,211,238,0.4)] focus:outline-none focus:ring-2 focus:ring-cyan-400/50 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-sky-400/50 bg-sky-500/20 px-5 py-3 text-sm font-semibold text-sky-100 transition hover:bg-sky-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? (
                 'Please wait...'
@@ -253,17 +267,17 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
             </button>
           </form>
 
-          <div className="mt-5 flex items-start gap-2 rounded-lg border border-slate-800 bg-slate-950/50 px-3 py-2.5 text-[11px] leading-relaxed text-slate-500">
-            <Sparkles size={14} className="mt-0.5 shrink-0 text-cyan-400" />
+          <div className="mt-5 flex items-start gap-2 rounded-lg border border-slate-700 bg-slate-950/50 px-3 py-2.5 text-sm leading-relaxed text-slate-300">
+            <Sparkles size={15} className="mt-0.5 shrink-0 text-sky-400" />
             <span>
-              Roles are stored in Supabase <code className="text-cyan-400">user_metadata.role</code>.
-              Sign up as <strong className="text-slate-300">Admin</strong> to unlock Add / Edit /
+              Roles are stored in Supabase <code className="text-sky-300">user_metadata.role</code>.
+              Sign up as <strong className="text-slate-100">Admin</strong> to unlock Add / Edit /
               Delete and stock controls.
             </span>
           </div>
 
-          <div className="mt-3 flex items-center justify-center gap-1.5 text-[11px] text-slate-600">
-            <KeyRound size={12} />
+          <div className="mt-3 flex items-center justify-center gap-1.5 text-sm text-slate-400">
+            <KeyRound size={14} />
             Secured by Supabase Auth
           </div>
         </div>

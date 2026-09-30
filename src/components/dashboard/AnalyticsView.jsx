@@ -15,41 +15,37 @@ import {
 } from 'recharts';
 import { Activity, ChartColumnBig, Database, Inbox } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient.js';
+import { formatPHP } from '../../utils/currency.js';
 
 const PALETTE = [
-  '#22d3ee',
+  '#38bdf8',
   '#34d399',
   '#fbbf24',
   '#fb7185',
   '#a78bfa',
   '#f472b6',
-  '#60a5fa',
+  '#93c5fd',
   '#4ade80'
 ];
 
-const currency = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD'
-});
-
 const tooltipStyle = {
   backgroundColor: '#0f172a',
-  border: '1px solid #1e293b',
+  border: '1px solid #334155',
   borderRadius: '12px',
-  color: '#e2e8f0',
-  fontSize: 12
+  color: '#f1f5f9',
+  fontSize: 14
 };
 
 function Panel({ title, subtitle, icon: Icon, children }) {
   return (
     <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 backdrop-blur">
       <div className="mb-4 flex items-center gap-2.5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-cyan-500/30 bg-cyan-500/10 text-cyan-300">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-sky-500/40 bg-sky-500/15 text-sky-300">
           <Icon size={15} />
         </div>
         <div>
           <h3 className="text-sm font-semibold text-slate-100">{title}</h3>
-          {subtitle ? <p className="text-xs text-slate-500">{subtitle}</p> : null}
+          {subtitle ? <p className="text-sm text-slate-400">{subtitle}</p> : null}
         </div>
       </div>
       {children}
@@ -59,12 +55,12 @@ function Panel({ title, subtitle, icon: Icon, children }) {
 
 function EmptyState({ message }) {
   return (
-    <div className="flex h-72 flex-col items-center justify-center gap-2 text-center">
-      <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-700 bg-slate-950/60 text-slate-500">
-        <Inbox size={20} />
+      <div className="flex h-72 flex-col items-center justify-center gap-2 text-center">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-600 bg-slate-950/60 text-slate-400">
+          <Inbox size={20} />
+        </div>
+        <p className="text-sm text-slate-300">{message}</p>
       </div>
-      <p className="text-sm text-slate-400">{message}</p>
-    </div>
   );
 }
 
@@ -153,7 +149,7 @@ export default function AnalyticsView({ products = [] }) {
       const key = dayKey(date);
       const entry = {
         key,
-        label: date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+        label: date.toLocaleDateString('en-PH', { month: 'short', day: 'numeric' }),
         net: 0,
         inbound: 0,
         outbound: 0
@@ -201,24 +197,24 @@ export default function AnalyticsView({ products = [] }) {
                   margin={{ top: 4, right: 24, bottom: 4, left: 4 }}
                   barCategoryGap={14}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" horizontal={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={false} />
                   <XAxis
                     type="number"
-                    tick={{ fill: '#64748b', fontSize: 11 }}
-                    stroke="#1e293b"
-                    tickFormatter={(value) => `$${value}`}
+                    tick={{ fill: '#94a3b8', fontSize: 13 }}
+                    stroke="#334155"
+                    tickFormatter={(value) => formatPHP(value)}
                   />
                   <YAxis
                     type="category"
                     dataKey="name"
                     width={130}
-                    tick={{ fill: '#94a3b8', fontSize: 11 }}
-                    stroke="#1e293b"
+                    tick={{ fill: '#cbd5e1', fontSize: 13 }}
+                    stroke="#334155"
                   />
                   <Tooltip
                     contentStyle={tooltipStyle}
-                    cursor={{ fill: 'rgba(34,211,238,0.06)' }}
-                    formatter={(value) => [currency.format(value), 'Valuation']}
+                    cursor={{ fill: 'rgba(56,189,248,0.08)' }}
+                    formatter={(value) => [formatPHP(value), 'Valuation']}
                   />
                   <Bar dataKey="valuation" radius={[0, 8, 8, 0]}>
                     {topProducts.map((entry, index) => (
@@ -276,7 +272,7 @@ export default function AnalyticsView({ products = [] }) {
                       style={{ backgroundColor: PALETTE[index % PALETTE.length] }}
                     />
                     {entry.name}
-                    <span className="text-slate-600">({entry.value})</span>
+                    <span className="text-slate-400">({entry.value})</span>
                   </span>
                 ))}
               </div>
@@ -291,12 +287,12 @@ export default function AnalyticsView({ products = [] }) {
         icon={Activity}
       >
         {logsLoading ? (
-          <div className="flex h-72 flex-col items-center justify-center gap-3 text-slate-500">
-            <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-700 border-t-cyan-400" />
+          <div className="flex h-72 flex-col items-center justify-center gap-3 text-slate-300">
+            <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-sky-400" />
             <span className="text-sm">Loading stock movement...</span>
           </div>
         ) : logsError ? (
-          <div className="h-72 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
+          <div className="h-72 rounded-xl border border-rose-400/50 bg-rose-500/15 px-4 py-3 text-sm text-rose-100">
             {logsError}
           </div>
         ) : !hasMovement ? (
@@ -310,28 +306,28 @@ export default function AnalyticsView({ products = [] }) {
               >
                 <defs>
                   <linearGradient id="netGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#22d3ee" stopOpacity={0.45} />
-                    <stop offset="100%" stopColor="#22d3ee" stopOpacity={0.02} />
+                    <stop offset="0%" stopColor="#38bdf8" stopOpacity={0.45} />
+                    <stop offset="100%" stopColor="#38bdf8" stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#1e293b" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
                 <XAxis
                   dataKey="label"
-                  tick={{ fill: '#64748b', fontSize: 11 }}
-                  stroke="#1e293b"
+                  tick={{ fill: '#94a3b8', fontSize: 13 }}
+                  stroke="#334155"
                   interval={1}
                 />
-                <YAxis tick={{ fill: '#64748b', fontSize: 11 }} stroke="#1e293b" width={40} />
+                <YAxis tick={{ fill: '#94a3b8', fontSize: 13 }} stroke="#334155" width={48} />
                 <Tooltip
                   contentStyle={tooltipStyle}
-                  cursor={{ stroke: '#22d3ee', strokeWidth: 1, strokeDasharray: '4 4' }}
+                  cursor={{ stroke: '#38bdf8', strokeWidth: 1, strokeDasharray: '4 4' }}
                   formatter={(value, name) => [value, name === 'net' ? 'Net change' : name]}
                 />
                 <Area
                   type="monotone"
                   dataKey="net"
                   name="net"
-                  stroke="#22d3ee"
+                  stroke="#38bdf8"
                   strokeWidth={2}
                   fill="url(#netGradient)"
                 />

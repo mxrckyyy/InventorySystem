@@ -1,10 +1,6 @@
 import { Boxes, CircleDollarSign, PackageX, TriangleAlert } from 'lucide-react';
 import StatCard from './StatCard.jsx';
-
-const currency = new Intl.NumberFormat('en-US', {
-  style: 'currency',
-  currency: 'USD'
-});
+import { formatPHP } from '../../utils/currency.js';
 
 export default function MetricsBar({ products = [] }) {
   const totalProducts = products.length;
@@ -36,7 +32,7 @@ export default function MetricsBar({ products = [] }) {
       />
       <StatCard
         title="Total Valuation"
-        value={currency.format(totalValuation)}
+        value={formatPHP(totalValuation)}
         icon={CircleDollarSign}
         tone="emerald"
         hint="Price x quantity"

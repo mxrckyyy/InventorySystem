@@ -96,15 +96,15 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
         if (event.target === event.currentTarget) onClose?.();
       }}
     >
-      <aside className="flex h-full w-full max-w-2xl animate-slide-in flex-col border-l border-cyan-500/20 bg-slate-900 shadow-[-20px_0_60px_rgba(34,211,238,0.12)]">
+      <aside className="flex h-full w-full max-w-2xl animate-slide-in flex-col border-l border-sky-500/20 bg-slate-900 shadow-2xl">
         <div className="flex items-start justify-between gap-3 border-b border-slate-800 px-5 py-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-cyan-500/40 bg-cyan-500/10 text-cyan-300">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-500/40 bg-sky-500/15 text-sky-300">
               <History size={18} />
             </div>
             <div>
               <h2 className="text-base font-semibold text-slate-50">{heading}</h2>
-              <p className="text-xs text-slate-500">
+              <p className="text-sm text-slate-300">
                 {product
                   ? `SKU ${product.sku} · most recent first`
                   : 'All stock movements · most recent first'}
@@ -116,40 +116,40 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
             type="button"
             onClick={onClose}
             aria-label="Close stock history"
-            className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-slate-700 text-slate-400 transition hover:border-rose-500/60 hover:text-rose-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
           >
-            <X size={16} />
+            <X size={18} />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto">
           {loading ? (
-            <div className="flex flex-col items-center justify-center gap-3 py-20 text-slate-500">
-              <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-700 border-t-cyan-400" />
+            <div className="flex flex-col items-center justify-center gap-3 py-20 text-slate-300">
+              <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-sky-400" />
               <span className="text-sm">Loading stock logs...</span>
             </div>
           ) : error ? (
-            <div className="m-5 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-200">
+            <div className="m-5 rounded-xl border border-rose-400/50 bg-rose-500/15 px-4 py-3 text-sm text-rose-100">
               {error}
             </div>
           ) : logs.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-3 px-5 py-20 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-700 bg-slate-950/60 text-slate-500">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-600 bg-slate-950/60 text-slate-400">
                 <Inbox size={22} />
               </div>
-              <p className="text-sm font-medium text-slate-300">No stock logs yet</p>
-              <p className="text-xs text-slate-500">
+              <p className="text-sm font-medium text-slate-200">No stock logs yet</p>
+              <p className="text-sm text-slate-400">
                 Stock movements recorded with +1 / -1 will appear here.
               </p>
             </div>
           ) : (
             <table className="w-full text-left text-sm">
               <thead className="sticky top-0 bg-slate-900/95 backdrop-blur">
-                <tr className="border-b border-slate-800 text-xs uppercase tracking-wider text-slate-500">
-                  <th className="px-5 py-3 font-medium">Timestamp</th>
-                  <th className="px-5 py-3 font-medium">Product</th>
-                  <th className="px-5 py-3 font-medium">Change</th>
-                  <th className="px-5 py-3 font-medium">Type</th>
+                <tr className="border-b border-slate-800 text-sm uppercase tracking-wider text-slate-300">
+                  <th className="px-5 py-3 font-semibold">Timestamp</th>
+                  <th className="px-5 py-3 font-semibold">Product</th>
+                  <th className="px-5 py-3 font-semibold">Change</th>
+                  <th className="px-5 py-3 font-semibold">Type</th>
                 </tr>
               </thead>
               <tbody>
@@ -172,12 +172,12 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
                             <span className="block font-medium text-slate-100">
                               {embedded.name}
                             </span>
-                            <span className="block font-mono text-xs text-cyan-300">
+                            <span className="block font-mono text-sm text-sky-300">
                               {embedded.sku}
                             </span>
                           </>
                         ) : (
-                          <span className="font-mono text-xs text-slate-500" title={log.product_id}>
+                          <span className="font-mono text-sm text-slate-400" title={log.product_id}>
                             {shortId(log.product_id)}
                           </span>
                         )}
@@ -209,7 +209,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
           )}
         </div>
 
-        <div className="flex items-center justify-between border-t border-slate-800 px-5 py-3 text-xs text-slate-500">
+        <div className="flex items-center justify-between border-t border-slate-800 px-5 py-3 text-sm text-slate-400">
           <span>
             {loading ? 'Loading…' : `${logs.length} log${logs.length === 1 ? '' : 's'}`}
           </span>

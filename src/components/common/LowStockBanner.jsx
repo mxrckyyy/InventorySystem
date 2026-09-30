@@ -35,9 +35,9 @@ export default function LowStockBanner({
 
   const expandBtnClass = expanded
     ? isCritical
-      ? 'border-rose-400/60 bg-rose-500/20 text-rose-200 focus:ring-rose-400/50'
-      : 'border-amber-400/60 bg-amber-500/20 text-amber-200 focus:ring-amber-400/50'
-    : 'border-slate-700 bg-slate-950/60 text-slate-300 hover:border-slate-500 hover:text-slate-100 focus:ring-slate-500';
+      ? 'border-rose-400/60 bg-rose-500/20 text-rose-100 focus-visible:ring-rose-300'
+      : 'border-amber-400/60 bg-amber-500/20 text-amber-100 focus-visible:ring-amber-300'
+    : 'border-slate-600 bg-slate-950/60 text-slate-200 hover:border-slate-400 hover:text-slate-50 focus-visible:ring-slate-400';
 
   return (
     <section
@@ -80,7 +80,7 @@ export default function LowStockBanner({
                   return (
                     <span
                       key={product.id}
-                      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs ${
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm ${
                         dead
                           ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
                           : 'border-amber-500/40 bg-amber-500/10 text-amber-300'
@@ -101,7 +101,7 @@ export default function LowStockBanner({
                 ) : null}
               </div>
             ) : (
-              <p className="mt-1 text-xs text-slate-500">
+              <p className="mt-1 text-sm text-slate-300">
                 Click any product below to jump to it in the inventory table.
               </p>
             )}
@@ -113,10 +113,10 @@ export default function LowStockBanner({
             type="button"
             onClick={onToggleHighlight}
             aria-pressed={highlightActive}
-            className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 ${
+            className={`inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 ${
               highlightActive
-                ? 'border-amber-400/60 bg-amber-500/20 text-amber-200 shadow-[0_0_20px_rgba(251,191,36,0.3)] focus:ring-amber-400/50'
-                : 'border-slate-700 bg-slate-950/60 text-slate-300 hover:border-amber-500/50 hover:text-amber-300 focus:ring-slate-500'
+                ? 'border-amber-400/60 bg-amber-500/20 text-amber-100 focus-visible:ring-amber-300'
+                : 'border-slate-600 bg-slate-950/60 text-slate-200 hover:border-amber-500/50 hover:text-amber-200 focus-visible:ring-slate-400'
             }`}
           >
             {highlightActive ? <BellRing size={16} /> : <Bell size={16} />}
@@ -128,7 +128,7 @@ export default function LowStockBanner({
             onClick={() => setExpanded((prev) => !prev)}
             aria-expanded={expanded}
             aria-controls="low-stock-drawer"
-            className={`inline-flex items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus:ring-2 ${expandBtnClass}`}
+            className={`inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 ${expandBtnClass}`}
           >
             {expanded
               ? 'Hide Alerts'
@@ -144,15 +144,15 @@ export default function LowStockBanner({
       {expanded ? (
         <div id="low-stock-drawer" className="mt-3 border-t border-slate-800/80 pt-3">
           <div className="mb-2 flex items-center justify-between gap-3">
-            <span className="text-xs font-semibold uppercase tracking-widest text-slate-500">
+            <span className="text-sm font-semibold uppercase tracking-widest text-slate-300">
               Critical Products
             </span>
             <button
               type="button"
               onClick={onShowAll}
-              className="inline-flex items-center gap-1.5 rounded-full border border-slate-700 bg-slate-950/60 px-3 py-1 text-xs font-medium text-slate-400 transition hover:border-cyan-500/50 hover:text-cyan-300 focus:outline-none focus:ring-2 focus:ring-cyan-500/30"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-950/60 px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:border-sky-500/50 hover:text-sky-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
             >
-              <ListFilter size={13} />
+              <ListFilter size={15} />
               Show all in table
             </button>
           </div>
@@ -168,7 +168,7 @@ export default function LowStockBanner({
                   <button
                     type="button"
                     onClick={() => onLocate?.(product)}
-                    className={`group flex w-full items-center justify-between gap-3 rounded-xl border px-3 py-2 text-left transition focus:outline-none focus:ring-2 ${
+                    className={`group flex min-h-[44px] w-full items-center justify-between gap-3 rounded-xl border px-3 py-2 text-left transition focus:outline-none focus-visible:ring-2 ${
                       dead
                         ? 'border-rose-500/30 bg-rose-500/[0.06] hover:border-rose-400/60 focus:ring-rose-400/40'
                         : 'border-amber-500/30 bg-amber-500/[0.06] hover:border-amber-400/60 focus:ring-amber-400/40'
@@ -178,7 +178,7 @@ export default function LowStockBanner({
                       <span className="block truncate text-sm font-medium text-slate-100">
                         {product.name}
                       </span>
-                      <span className="block truncate font-mono text-xs text-slate-500">
+                      <span className="block truncate font-mono text-sm text-slate-400">
                         {product.sku}
                         {product.category ? ` · ${product.category}` : ''}
                       </span>
