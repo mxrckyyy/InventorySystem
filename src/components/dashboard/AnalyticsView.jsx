@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+﻿import { useEffect, useMemo, useState } from 'react';
 import {
   Area,
   AreaChart,
@@ -18,19 +18,19 @@ import { supabase } from '../../lib/supabaseClient.js';
 import { formatPHP } from '../../utils/currency.js';
 
 const PALETTE = [
-  '#f59e0b',
+  '#00D06C',
+  '#10b981',
+  '#059669',
   '#fbbf24',
-  '#facc15',
-  '#d97706',
-  '#fcd34d',
-  '#eab308',
-  '#b45309',
-  '#fde68a'
+  '#34d399',
+  '#2dd4bf',
+  '#a3e635',
+  '#fb7185'
 ];
 
 const tooltipStyle = {
-  backgroundColor: '#0c0a09',
-  border: '1px solid #f59e0b55',
+  backgroundColor: '#0B1015',
+  border: '1px solid rgba(0, 208, 108, 0.4)',
   borderRadius: '12px',
   color: '#f5f5f4',
   fontSize: 14
@@ -38,14 +38,14 @@ const tooltipStyle = {
 
 function Panel({ title, subtitle, icon: Icon, children }) {
   return (
-    <div className="rounded-2xl border border-amber-500/20 bg-slate-900 p-6">
+    <div className="rounded-2xl border border-[#222E3A] bg-[#151D24] p-6">
       <div className="mb-4 flex items-center gap-2.5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-amber-500/40 bg-amber-500/15 text-amber-400">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-emerald-500/40 bg-emerald-500/15 text-emerald-400">
           <Icon size={15} />
         </div>
         <div>
-          <h3 className="text-sm font-semibold text-slate-100">{title}</h3>
-          {subtitle ? <p className="text-sm text-slate-400">{subtitle}</p> : null}
+          <h3 className="text-sm font-semibold text-white">{title}</h3>
+          {subtitle ? <p className="text-sm text-slate-300">{subtitle}</p> : null}
         </div>
       </div>
       {children}
@@ -56,7 +56,7 @@ function Panel({ title, subtitle, icon: Icon, children }) {
 function EmptyState({ message }) {
   return (
       <div className="flex h-72 flex-col items-center justify-center gap-2 text-center">
-        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-600 bg-slate-950/60 text-slate-400">
+        <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[#273544] bg-[#0F161E] text-slate-400">
           <Inbox size={20} />
         </div>
         <p className="text-sm text-slate-300">{message}</p>
@@ -66,7 +66,7 @@ function EmptyState({ message }) {
 
 function truncateLabel(value, max = 18) {
   const text = String(value || 'Unnamed');
-  return text.length > max ? `${text.slice(0, max - 1)}…` : text;
+  return text.length > max ? `${text.slice(0, max - 1)}â€¦` : text;
 }
 
 function dayKey(date) {
@@ -183,7 +183,7 @@ export default function AnalyticsView({ products = [] }) {
       <div className="grid grid-cols-1 gap-6 xl:grid-cols-2">
         <Panel
           title="Top 5 Highest Valuation"
-          subtitle="Unit price × quantity"
+          subtitle="Unit price Ã— quantity"
           icon={ChartColumnBig}
         >
           {topProducts.length === 0 ? (
@@ -197,11 +197,11 @@ export default function AnalyticsView({ products = [] }) {
                   margin={{ top: 4, right: 24, bottom: 4, left: 4 }}
                   barCategoryGap={14}
                 >
-                  <CartesianGrid strokeDasharray="3 3" stroke="#334155" horizontal={false} />
+                  <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" horizontal={false} />
                   <XAxis
                     type="number"
-                    tick={{ fill: '#94a3b8', fontSize: 13 }}
-                    stroke="#334155"
+                    tick={{ fill: '#cbd5e1', fontSize: 13 }}
+                    stroke="#1E293B"
                     tickFormatter={(value) => formatPHP(value)}
                   />
                   <YAxis
@@ -209,11 +209,11 @@ export default function AnalyticsView({ products = [] }) {
                     dataKey="name"
                     width={130}
                     tick={{ fill: '#cbd5e1', fontSize: 13 }}
-                    stroke="#334155"
+                    stroke="#1E293B"
                   />
                   <Tooltip
                     contentStyle={tooltipStyle}
-                    cursor={{ fill: 'rgba(245,158,11,0.10)' }}
+                    cursor={{ fill: 'rgba(0,208,108,0.12)' }}
                     formatter={(value) => [formatPHP(value), 'Valuation']}
                   />
                   <Bar dataKey="valuation" radius={[0, 8, 8, 0]}>
@@ -229,7 +229,7 @@ export default function AnalyticsView({ products = [] }) {
 
         <Panel
           title="Inventory by Category"
-          subtitle={`${categoryDistribution.length} categor${categoryDistribution.length === 1 ? 'y' : 'ies'} · ${products.length} products`}
+          subtitle={`${categoryDistribution.length} categor${categoryDistribution.length === 1 ? 'y' : 'ies'} Â· ${products.length} products`}
           icon={Database}
         >
           {categoryDistribution.length === 0 ? (
@@ -246,7 +246,7 @@ export default function AnalyticsView({ products = [] }) {
                       innerRadius={62}
                       outerRadius={96}
                       paddingAngle={2}
-                      stroke="#0f172a"
+                      stroke="#151D24"
                       strokeWidth={2}
                     >
                       {categoryDistribution.map((entry, index) => (
@@ -283,16 +283,16 @@ export default function AnalyticsView({ products = [] }) {
 
       <Panel
         title="Stock Movement Trend"
-        subtitle={`Last 14 days · ${totalMovement} log entr${totalMovement === 1 ? 'y' : 'ies'} (net change per day)`}
+        subtitle={`Last 14 days Â· ${totalMovement} log entr${totalMovement === 1 ? 'y' : 'ies'} (net change per day)`}
         icon={Activity}
       >
         {logsLoading ? (
           <div className="flex h-72 flex-col items-center justify-center gap-3 text-slate-300">
-            <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-amber-400" />
+            <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-emerald-400" />
             <span className="text-sm">Loading stock movement...</span>
           </div>
         ) : logsError ? (
-          <div className="h-72 rounded-xl border border-rose-400/50 bg-rose-500/15 px-4 py-3 text-sm text-rose-100">
+          <div className="h-72 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-400">
             {logsError}
           </div>
         ) : !hasMovement ? (
@@ -306,28 +306,28 @@ export default function AnalyticsView({ products = [] }) {
               >
                 <defs>
                   <linearGradient id="netGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.45} />
-                    <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.02} />
+                    <stop offset="0%" stopColor="#00D06C" stopOpacity={0.45} />
+                    <stop offset="100%" stopColor="#00D06C" stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
-                <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
+                <CartesianGrid strokeDasharray="3 3" stroke="#1E293B" />
                 <XAxis
                   dataKey="label"
-                  tick={{ fill: '#94a3b8', fontSize: 13 }}
-                  stroke="#334155"
+                  tick={{ fill: '#cbd5e1', fontSize: 13 }}
+                  stroke="#1E293B"
                   interval={1}
                 />
-                <YAxis tick={{ fill: '#94a3b8', fontSize: 13 }} stroke="#334155" width={48} />
+                <YAxis tick={{ fill: '#cbd5e1', fontSize: 13 }} stroke="#1E293B" width={48} />
                 <Tooltip
                   contentStyle={tooltipStyle}
-                  cursor={{ stroke: '#f59e0b', strokeWidth: 1, strokeDasharray: '4 4' }}
+                  cursor={{ stroke: '#00D06C', strokeWidth: 1, strokeDasharray: '4 4' }}
                   formatter={(value, name) => [value, name === 'net' ? 'Net change' : name]}
                 />
                 <Area
                   type="monotone"
                   dataKey="net"
                   name="net"
-                  stroke="#f59e0b"
+                  stroke="#00D06C"
                   strokeWidth={2}
                   fill="url(#netGradient)"
                 />

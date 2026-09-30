@@ -21,7 +21,7 @@ export const EXCEL_COLUMNS = [
   { label: 'Created At', key: 'created_at', type: 'date', width: 22 }
 ];
 
-const PESO_FORMAT = '₱#,##0.00';
+const PESO_FORMAT = 'P#,##0.00';
 const DATE_FORMAT = 'yyyy-mm-dd hh:mm';
 
 const EXCEL_EPOCH_UTC = Date.UTC(1899, 11, 30);

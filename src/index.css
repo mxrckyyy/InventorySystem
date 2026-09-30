@@ -8,14 +8,14 @@
   }
 
   body {
-    @apply bg-slate-950 text-slate-100;
+    @apply bg-[#0B1015] text-slate-100;
     font-size: 1rem;
     line-height: 1.5;
   }
 
-  /* Clear, high-contrast amber focus ring for keyboard users on every control */
+  /* Clear, high-contrast emerald focus ring for keyboard users on every control */
   :where(a, button, input, select, textarea, summary, [role='button'], [tabindex]):focus-visible {
-    outline: 2px solid #fbbf24;
+    outline: 2px solid #00D06C;
     outline-offset: 2px;
   }
 
@@ -28,8 +28,8 @@
   }
 
   ::selection {
-    background: rgba(251, 191, 36, 0.35);
-    color: #0c0a09;
+    background: rgba(0, 208, 108, 0.35);
+    color: #04110a;
   }
 
   @media (prefers-reduced-motion: reduce) {

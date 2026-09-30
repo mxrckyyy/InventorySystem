@@ -1,4 +1,4 @@
-import { useState } from 'react';
+﻿import { useState } from 'react';
 import {
   Bell,
   BellRing,
@@ -35,15 +35,15 @@ export default function LowStockBanner({
 
   const expandBtnClass = expanded
     ? isCritical
-      ? 'border-rose-400/60 bg-rose-500/20 text-rose-100 focus-visible:ring-rose-300'
-      : 'border-amber-400/60 bg-amber-500/20 text-amber-100 focus-visible:ring-amber-300'
-    : 'border-amber-500 bg-amber-500 text-slate-950 hover:bg-amber-400 focus-visible:ring-amber-400';
+      ? 'border-red-500/60 bg-red-500/20 text-red-400 focus-visible:ring-red-500'
+      : 'border-amber-400/60 bg-amber-500/20 text-amber-100 focus-visible:ring-emerald-500'
+    : 'border-[#00D06C] bg-[#00D06C] text-slate-950 hover:brightness-110 focus-visible:ring-emerald-500';
 
   return (
     <section
       className={`rounded-2xl border px-4 py-3.5 backdrop-blur ${
         isCritical
-          ? 'border-rose-500/40 bg-rose-500/[0.08]'
+          ? 'border-red-500/40 bg-red-500/[0.08]'
           : 'border-amber-500/40 bg-amber-500/[0.08]'
       }`}
     >
@@ -52,7 +52,7 @@ export default function LowStockBanner({
           <div
             className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl border ${
               isCritical
-                ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
+                ? 'border-red-500/40 bg-red-500/10 text-red-400'
                 : 'border-amber-500/40 bg-amber-500/10 text-amber-300'
             }`}
           >
@@ -62,12 +62,12 @@ export default function LowStockBanner({
           <div className="min-w-0">
             <p
               className={`text-sm font-semibold ${
-                isCritical ? 'text-rose-200' : 'text-amber-200'
+                isCritical ? 'text-red-400' : 'text-amber-200'
               }`}
             >
               {critical.length} item{critical.length === 1 ? '' : 's'} at or below reorder
               level
-              {outOfStock > 0 ? ` · ${outOfStock} out of stock` : ''}
+              {outOfStock > 0 ? ` Â· ${outOfStock} out of stock` : ''}
             </p>
 
             {!expanded ? (
@@ -82,7 +82,7 @@ export default function LowStockBanner({
                       key={product.id}
                       className={`inline-flex items-center gap-1.5 rounded-full border px-3 py-1.5 text-sm ${
                         dead
-                          ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
+                          ? 'border-red-500/40 bg-red-500/10 text-red-400'
                           : 'border-amber-500/40 bg-amber-500/10 text-amber-300'
                       }`}
                     >
@@ -95,7 +95,7 @@ export default function LowStockBanner({
                 })}
 
                 {hidden > 0 ? (
-                  <span className="inline-flex items-center rounded-full border border-slate-700 bg-slate-950/60 px-2.5 py-1 text-xs text-slate-400">
+                  <span className="inline-flex items-center rounded-full border border-[#273544] bg-[#0F161E] px-2.5 py-1 text-xs text-slate-400">
                     +{hidden} more
                   </span>
                 ) : null}
@@ -115,8 +115,8 @@ export default function LowStockBanner({
             aria-pressed={highlightActive}
             className={`inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border px-4 py-2.5 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 ${
               highlightActive
-                ? 'border-amber-400/60 bg-amber-500/20 text-amber-100 focus-visible:ring-amber-300'
-                : 'border-slate-600 bg-slate-950/60 text-slate-200 hover:border-amber-500/50 hover:text-amber-200 focus-visible:ring-slate-400'
+                ? 'border-emerald-500/60 bg-emerald-500/15 text-emerald-400 focus-visible:ring-emerald-500'
+                : 'border-[#273544] bg-[#0F161E] text-slate-300 hover:border-emerald-500/60 hover:text-emerald-400 focus-visible:ring-emerald-500'
             }`}
           >
             {highlightActive ? <BellRing size={16} /> : <Bell size={16} />}
@@ -142,7 +142,7 @@ export default function LowStockBanner({
       </div>
 
       {expanded ? (
-        <div id="low-stock-drawer" className="mt-3 border-t border-slate-800/80 pt-3">
+        <div id="low-stock-drawer" className="mt-3 border-t border-[#1E293B] pt-3">
           <div className="mb-2 flex items-center justify-between gap-3">
             <span className="text-sm font-semibold uppercase tracking-widest text-slate-300">
               Critical Products
@@ -150,7 +150,7 @@ export default function LowStockBanner({
             <button
               type="button"
               onClick={onShowAll}
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-950/60 px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:border-amber-500/50 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg border border-[#273544] bg-[#0F161E] px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:border-emerald-500/60 hover:text-emerald-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
             >
               <ListFilter size={15} />
               Show all in table
@@ -170,7 +170,7 @@ export default function LowStockBanner({
                     onClick={() => onLocate?.(product)}
                     className={`group flex min-h-[44px] w-full items-center justify-between gap-3 rounded-xl border px-3 py-2 text-left transition focus:outline-none focus-visible:ring-2 ${
                       dead
-                        ? 'border-rose-500/30 bg-rose-500/[0.06] hover:border-rose-400/60 focus:ring-rose-400/40'
+                        ? 'border-red-500/30 bg-red-500/[0.06] hover:border-red-500/60 focus:ring-red-400/40'
                         : 'border-amber-500/30 bg-amber-500/[0.06] hover:border-amber-400/60 focus:ring-amber-400/40'
                     }`}
                   >
@@ -180,7 +180,7 @@ export default function LowStockBanner({
                       </span>
                       <span className="block truncate font-mono text-sm text-slate-400">
                         {product.sku}
-                        {product.category ? ` · ${product.category}` : ''}
+                        {product.category ? ` Â· ${product.category}` : ''}
                       </span>
                     </span>
 
@@ -188,7 +188,7 @@ export default function LowStockBanner({
                       <span
                         className={`rounded-full border px-2 py-0.5 text-xs font-semibold ${
                           dead
-                            ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
+                            ? 'border-red-500/40 bg-red-500/10 text-red-400'
                             : 'border-amber-500/40 bg-amber-500/10 text-amber-300'
                         }`}
                       >
@@ -196,7 +196,7 @@ export default function LowStockBanner({
                       </span>
                       <span
                         className={`inline-flex items-center gap-1 text-xs font-semibold ${
-                          dead ? 'text-rose-300' : 'text-amber-300'
+                          dead ? 'text-red-400' : 'text-amber-300'
                         }`}
                       >
                         <Crosshair size={13} />

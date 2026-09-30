@@ -5,30 +5,30 @@ function getStatus(quantity, minReorderLevel) {
   if (quantity === 0) {
     return {
       label: 'Out of Stock',
-      badge: 'border-rose-300 bg-rose-50 text-rose-700',
-      dot: 'bg-rose-500'
+      badge: 'border-red-500/40 bg-red-500/10 text-red-400',
+      dot: 'bg-red-500'
     };
   }
 
   if (quantity <= minReorderLevel) {
     return {
       label: 'Low Stock',
-      badge: 'border-amber-300 bg-amber-50 text-amber-700',
+      badge: 'border-amber-500/40 bg-amber-500/10 text-amber-400',
       dot: 'bg-amber-500'
     };
   }
 
   return {
     label: 'In Stock',
-    badge: 'border-emerald-300 bg-emerald-50 text-emerald-700',
+    badge: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-400',
     dot: 'bg-emerald-500'
   };
 }
 
 function Spinner() {
   return (
-    <div className="flex items-center justify-center py-16 text-slate-500">
-      <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-300 border-t-amber-500" />
+    <div className="flex items-center justify-center py-16 text-slate-300">
+      <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-emerald-500" />
       <span className="ml-3 text-sm">Loading inventory...</span>
     </div>
   );
@@ -45,20 +45,20 @@ export default function ProductTable({
   onViewLogs
 }) {
   const actionBtn =
-    'inline-flex h-11 w-11 items-center justify-center rounded-xl border border-slate-300 bg-white text-slate-600 transition hover:border-amber-500 hover:bg-amber-50 hover:text-amber-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-500 focus-visible:ring-offset-1 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-slate-300 disabled:hover:bg-white disabled:hover:text-slate-600';
+    'inline-flex h-11 w-11 items-center justify-center rounded-lg border border-[#273544] bg-[#0F161E] text-slate-400 transition hover:border-emerald-500/60 hover:text-emerald-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-[#273544] disabled:hover:text-slate-400';
 
   const writeDisabledTitle = canWrite ? undefined : 'Admin access required';
 
   return (
-    <section className="overflow-hidden rounded-2xl border border-slate-200 bg-white text-slate-900 shadow-sm">
-      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-900 px-6 py-4">
-        <h2 className="text-sm font-semibold uppercase tracking-widest text-slate-200">
+    <section className="overflow-hidden rounded-2xl border border-[#222E3A] bg-[#151D24]">
+      <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#1E293B] px-6 py-4">
+        <h2 className="text-xs font-semibold uppercase tracking-wider text-slate-300">
           Product Catalogue
         </h2>
         <button
           type="button"
           onClick={() => onViewLogs?.(null)}
-          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-950/60 px-3.5 py-2 text-sm font-medium text-slate-200 transition hover:border-amber-500/60 hover:text-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400"
+          className="inline-flex min-h-[44px] items-center gap-1.5 rounded-lg border border-[#273544] bg-[#0F161E] px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:border-emerald-500/60 hover:text-emerald-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
         >
           <History size={15} />
           All Logs
@@ -69,11 +69,11 @@ export default function ProductTable({
         <Spinner />
       ) : products.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-3 px-6 py-16 text-center">
-          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-200 bg-slate-50 text-slate-400">
+          <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#273544] bg-[#0F161E] text-slate-400">
             <Package size={22} />
           </div>
-          <p className="text-sm font-semibold text-slate-700">No products found</p>
-          <p className="text-sm text-slate-500">
+          <p className="text-sm font-semibold text-white">No products found</p>
+          <p className="text-sm text-slate-300">
             Adjust your search or add a new product to get started.
           </p>
         </div>
@@ -81,15 +81,15 @@ export default function ProductTable({
         <div className="overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
             <thead>
-              <tr className="border-b-2 border-slate-200 bg-slate-50 text-sm uppercase tracking-wider text-slate-500">
-                <th className="px-6 py-3.5 font-semibold">SKU</th>
-                <th className="px-6 py-3.5 font-semibold">Name</th>
-                <th className="px-6 py-3.5 font-semibold">Category</th>
-                <th className="px-6 py-3.5 font-semibold">Quantity</th>
-                <th className="px-6 py-3.5 font-semibold">Unit Price</th>
-                <th className="px-6 py-3.5 font-semibold">Total Value</th>
-                <th className="px-6 py-3.5 font-semibold">Status</th>
-                <th className="px-6 py-3.5 text-right font-semibold">Actions</th>
+              <tr className="bg-[#121920] text-xs font-semibold uppercase tracking-wider text-slate-300">
+                <th className="border-b border-[#1E293B] px-6 py-3.5">SKU</th>
+                <th className="border-b border-[#1E293B] px-6 py-3.5">Name</th>
+                <th className="border-b border-[#1E293B] px-6 py-3.5">Category</th>
+                <th className="border-b border-[#1E293B] px-6 py-3.5">Quantity</th>
+                <th className="border-b border-[#1E293B] px-6 py-3.5">Unit Price</th>
+                <th className="border-b border-[#1E293B] px-6 py-3.5">Total Value</th>
+                <th className="border-b border-[#1E293B] px-6 py-3.5">Status</th>
+                <th className="border-b border-[#1E293B] px-6 py-3.5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody>
@@ -104,28 +104,30 @@ export default function ProductTable({
                   <tr
                     key={product.id}
                     id={`product-row-${product.id}`}
-                    className={`border-b border-slate-200 transition hover:bg-amber-50/60 ${
-                      isFlagged ? 'bg-amber-100/70' : 'odd:bg-white even:bg-slate-50/60'
+                    className={`border-b border-[#1E293B] transition hover:bg-emerald-500/5 ${
+                      isFlagged
+                        ? 'bg-amber-500/10'
+                        : 'odd:bg-[#151D24] even:bg-[#121920]'
                     }`}
                   >
                     <td className="px-6 py-3.5">
-                      <span className="flex items-center gap-1.5 font-mono text-sm font-medium text-amber-700">
+                      <span className="flex items-center gap-1.5 font-mono text-sm font-medium text-emerald-400">
                         {isFlagged ? (
-                          <TriangleAlert size={14} className="shrink-0 text-amber-600" />
+                          <TriangleAlert size={14} className="shrink-0 text-amber-400" />
                         ) : null}
                         {product.sku}
                       </span>
                     </td>
-                    <td className="px-6 py-3.5 font-medium text-slate-900">
+                    <td className="px-6 py-3.5 font-medium text-white">
                       {product.name}
                       {product.supplier ? (
-                        <span className="block text-sm font-normal text-slate-500">
+                        <span className="block text-sm font-normal text-slate-300">
                           {product.supplier}
                         </span>
                       ) : null}
                     </td>
                     <td className="px-6 py-3.5">
-                      <span className="rounded-md border border-slate-200 bg-slate-100 px-2.5 py-1 text-sm text-slate-700">
+                      <span className="rounded-md border border-[#273544] bg-[#0F161E] px-2.5 py-1 text-sm text-slate-300">
                         {product.category}
                       </span>
                     </td>
@@ -141,7 +143,7 @@ export default function ProductTable({
                         >
                           <Minus size={16} strokeWidth={2.5} />
                         </button>
-                        <span className="w-10 text-center font-semibold text-slate-900">
+                        <span className="w-10 text-center font-semibold text-white">
                           {quantity}
                         </span>
                         <button
@@ -156,8 +158,8 @@ export default function ProductTable({
                         </button>
                       </div>
                     </td>
-                    <td className="px-6 py-3.5 text-slate-700">{formatPHP(unitPrice)}</td>
-                    <td className="px-6 py-3.5 font-semibold text-slate-900">
+                    <td className="px-6 py-3.5 text-slate-300">{formatPHP(unitPrice)}</td>
+                    <td className="px-6 py-3.5 font-semibold text-white">
                       {formatPHP(unitPrice * quantity)}
                     </td>
                     <td className="px-6 py-3.5">
@@ -184,7 +186,7 @@ export default function ProductTable({
                           disabled={!canWrite}
                           title={writeDisabledTitle}
                           onClick={() => onEdit?.(product)}
-                          className={actionBtn}
+                          className={`${actionBtn} text-emerald-400 hover:border-emerald-500/60 hover:text-emerald-300`}
                         >
                           <Pencil size={16} />
                         </button>
@@ -194,7 +196,7 @@ export default function ProductTable({
                           disabled={!canWrite}
                           title={writeDisabledTitle}
                           onClick={() => onDelete?.(product)}
-                          className={`${actionBtn} hover:border-rose-500 hover:bg-rose-50 hover:text-rose-600`}
+                          className={`${actionBtn} text-red-400 hover:border-red-500/60 hover:text-red-300`}
                         >
                           <Trash2 size={16} />
                         </button>

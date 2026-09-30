@@ -1,4 +1,4 @@
-import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
+﻿import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { CircleAlert, X } from 'lucide-react';
 import useInventory from './hooks/useInventory.js';
 import { useAuth } from './context/AuthContext.jsx';
@@ -61,7 +61,7 @@ export default function App() {
         sidebarCollapsed ? '1' : '0'
       );
     } catch {
-      /* storage unavailable — state stays session-only */
+      /* storage unavailable â€” state stays session-only */
     }
   }, [sidebarCollapsed]);
 
@@ -197,8 +197,8 @@ export default function App() {
 
   if (initializing) {
     return (
-      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-slate-950">
-        <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-amber-400" />
+      <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-[#0B1015]">
+        <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-emerald-400" />
         <p className="text-sm text-slate-300">Booting inventory console...</p>
       </div>
     );
@@ -211,8 +211,8 @@ export default function App() {
   const isInitialLoad = loading && products.length === 0;
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(245,158,11,0.06),transparent_60%)]" />
+    <div className="min-h-screen bg-[#0B1015] text-slate-100">
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(0,208,108,0.06),transparent_60%)]" />
 
       <Sidebar
         view={view}
@@ -249,14 +249,14 @@ export default function App() {
           </div>
 
           {!isAdmin ? (
-            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-slate-700 bg-slate-900/70 px-3 py-2 text-sm text-slate-300">
-              <CircleAlert size={15} className="text-amber-300" />
-              Viewer mode · read-only
+            <span className="inline-flex w-fit items-center gap-2 rounded-full border border-[#273544] bg-[#151D24] px-3 py-2 text-sm text-slate-300">
+              <CircleAlert size={15} className="text-emerald-400" />
+              Viewer mode Â· read-only
             </span>
           ) : null}
 
           {error ? (
-            <div className="flex items-start justify-between gap-3 rounded-xl border border-rose-500/40 bg-rose-500/10 px-4 py-3 text-sm text-rose-100">
+            <div className="flex items-start justify-between gap-3 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-400">
               <div className="flex items-start gap-2">
                 <CircleAlert size={18} className="mt-0.5 shrink-0" />
                 <span>{error}</span>
@@ -265,7 +265,7 @@ export default function App() {
                 type="button"
                 onClick={clearError}
                 aria-label="Dismiss error"
-                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition hover:bg-rose-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg transition hover:bg-red-500/20 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-500"
               >
                 <X size={18} />
               </button>
@@ -274,51 +274,55 @@ export default function App() {
 
           <MetricsBar products={products} />
 
-          <ControlBar
-            searchTerm={searchTerm}
-            onSearchChange={setSearchTerm}
-            categories={categories}
-            selectedCategory={selectedCategory}
-            onCategoryChange={setSelectedCategory}
-            onAddClick={handleOpenAdd}
-            onExportClick={handleExport}
-            onAuditLogsClick={() => handleViewLogs(null)}
-            quickFilter={quickFilter}
-            onQuickFilterChange={setQuickFilter}
-            resultCount={displayProducts.length}
-            canWrite={isAdmin}
-          />
-
           {view === VIEW_ANALYTICS ? (
             <Suspense
               fallback={
-                <section className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-amber-500/20 bg-slate-900 py-20">
-                  <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-amber-400" />
+                <section className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-[#222E3A] bg-[#151D24] py-20">
+                  <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-emerald-400" />
                   <p className="text-sm text-slate-300">Loading analytics engine...</p>
                 </section>
               }
             >
               <AnalyticsView products={products} />
             </Suspense>
-          ) : isInitialLoad ? (
-            <section className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-amber-500/20 bg-slate-900 py-20">
-              <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-amber-400" />
-              <p className="text-sm text-slate-300">Fetching inventory from Supabase...</p>
-            </section>
           ) : (
-            <ProductTable
-              products={displayProducts}
-              loading={loading}
-              canWrite={isAdmin}
-              highlightAlerts={highlightAlerts}
-              onEdit={handleOpenEdit}
-              onDelete={handleDelete}
-              onAdjust={handleAdjust}
-              onViewLogs={handleViewLogs}
-            />
+            <>
+              <ControlBar
+                searchTerm={searchTerm}
+                onSearchChange={setSearchTerm}
+                categories={categories}
+                selectedCategory={selectedCategory}
+                onCategoryChange={setSelectedCategory}
+                onAddClick={handleOpenAdd}
+                onExportClick={handleExport}
+                onAuditLogsClick={() => handleViewLogs(null)}
+                quickFilter={quickFilter}
+                onQuickFilterChange={setQuickFilter}
+                resultCount={displayProducts.length}
+                canWrite={isAdmin}
+              />
+
+              {isInitialLoad ? (
+                <section className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-[#222E3A] bg-[#151D24] py-20">
+                  <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-emerald-400" />
+                  <p className="text-sm text-slate-300">Fetching inventory from Supabase...</p>
+                </section>
+              ) : (
+                <ProductTable
+                  products={displayProducts}
+                  loading={loading}
+                  canWrite={isAdmin}
+                  highlightAlerts={highlightAlerts}
+                  onEdit={handleOpenEdit}
+                  onDelete={handleDelete}
+                  onAdjust={handleAdjust}
+                  onViewLogs={handleViewLogs}
+                />
+              )}
+            </>
           )}
 
-          <footer className="border-t border-slate-800/80 pt-4 text-center text-sm text-slate-400">
+          <footer className="border-t border-[#1E293B] pt-4 text-center text-sm text-slate-300">
             Inventory Management System &middot; React + Vite + Tailwind CSS + Supabase
           </footer>
         </div>

@@ -5,7 +5,8 @@ PROJECT CONTEXT & ARCHITECTURE: INVENTORY MANAGEMENT SYSTEM
 [TECH STACK]
 - Frontend: React (Vite), Tailwind CSS, Lucide-React, Recharts, xlsx (SheetJS)
 - Database & Backend: Supabase (PostgreSQL, Auth, Realtime)
-- Currency: Philippine Peso (₱) via Intl.NumberFormat('en-PH', {currency:'PHP'})
+- Currency: Philippine Peso rendered as "P120.00" (Intl.NumberFormat('en-PH')
+  grouping + 2 decimals, literal P prefix; Excel cells use P#,##0.00)
 
 [ENVIRONMENT VARIABLES] (SAFE PLACEHOLDERS - real values live only in the
 untracked local .env.local; never commit credentials to the repository)
@@ -45,25 +46,32 @@ untracked local .env.local; never commit credentials to the repository)
 - src/lib/supabaseClient.js -> Supabase singleton; reads VITE_* env vars,
   console.error when missing, falls back to non-empty placeholder strings so
   builds never crash (no hardcoded project domains)
-- src/utils/currency.js -> formatPHP / formatPHPCompact (₱ formatter)
-- src/utils/exportExcel.js -> SheetJS workbook builder (typed cells, ₱ number
-  format, auto column widths, autofilter) + browser download; replaces old CSV
-- src/components/auth/ -> AuthModal (dark-neon login/signup modal form)
-- src/components/common/ -> Header (top-left sidebar toggle: Menu icon on
-  mobile / PanelLeftClose-Open on desktop), ControlBar (dark amber-bordered
-  action card: search, category, quick-filter chips, action group),
-  AuthGate, LowStockBanner
-- src/components/dashboard/ -> MetricsBar, StatCard (bg-slate-900,
-  border-amber-500/20, amber icon accents), AnalyticsView (amber chart palette)
-- src/components/inventory/ -> ProductTable (WHITE high-contrast card:
-  bg-white text-slate-900 border-slate-200, dark header bar, amber hovers;
-  tr id=product-row-{id} for jump scrolling), ProductModal (auto-SKU +
-  numeric focus/blur UX), StockLogModal
+- src/utils/currency.js -> formatPHP / formatPHPCompact (P120.00 formatter)
+- src/utils/exportExcel.js -> SheetJS workbook builder (typed cells, P#,##0.00
+  number format, auto column widths, autofilter) + browser download; replaces old CSV
+- src/components/auth/ -> AuthModal (obsidian login/signup modal, dark inputs,
+  per-field red validation, emerald primary action)
+- src/components/common/ -> Header (top-left hamburger Menu toggle for the
+  sidebar), ControlBar (inventory header card: "Inventory" title + "Manage
+  your products and stock." + top search bar + category/quick filters +
+  emerald "+ Add Product"), AuthGate, LowStockBanner (emerald CTAs,
+  amber/red warning semantics kept)
+- src/components/dashboard/ -> MetricsBar, StatCard (bg-[#151D24]
+  border-[#222E3A], emerald icon accents; amber/rose tones only for warning
+  metrics), AnalyticsView (emerald chart palette, #151D24 panels)
+- src/components/inventory/ -> ProductTable (DARK card bg-[#151D24], header
+  row bg-[#121920] text-slate-300 uppercase xs, alternating #151D24/#121920
+  rows, borders #1E293B, text-slate-100/white, emerald pencil + red trash
+  icon actions; tr id=product-row-{id} for jump scrolling), ProductModal
+  (auto-SKU, numeric focus/blur UX, red field errors, success screen with
+  green check circle + View Inventory / Add Another Product), StockLogModal
 - src/components/layout/Sidebar.jsx -> primary nav: Dashboard, Analytics,
-  Low-Stock Alerts (badge count), Audit Logs. COLLAPSIBLE: desktop rail
-  w-64 <-> w-20 icon-only (chevron button at sidebar foot + Header toggle),
-  state persisted in localStorage key 'inv-sidebar-collapsed'; mobile keeps
-  overlay drawer (Escape/backdrop close, body lock)
+  Low-Stock Alerts (badge count), Audit Logs. Rounded PILL items; active =
+  bg-[#00D06C] text-black font-semibold; logo = green isometric cube (lucide
+  Box) + "Inventory System" branding. COLLAPSIBLE: desktop rail w-64 <->
+  w-20 icon-only (footer chevron + Header Menu toggle), persisted in
+  localStorage key 'inv-sidebar-collapsed'; mobile overlay drawer
+  (Escape/backdrop close, body lock)
 
 [AUTH & ROLE-BASED ACCESS]
 - Auth gate: unauthenticated users only see AuthGate (login / signup).
@@ -114,23 +122,49 @@ Phase 6 - ONYX + AMBER UI OVERHAUL:
     slate-900 text, slate-50 header row, amber tinted hovers/flags, light
     status badges) wrapped by a dark action header; ControlBar is a dark
     amber-bordered card; spacing standardized to p-6 / gap-6 / space-y-6.
+Phase 7 - EMERALD GREEN UI REFACTOR + HAMBURGER SIDEBAR:
+  * Theme: primary bg #0B1015 (obsidian), cards #151D24 with #222E3A
+    borders, inputs #0F161E with #273544 borders, table header/alt rows
+    #121920, row borders #1E293B. All amber/yellow brand accents replaced
+    by emerald (#00D06C / emerald-500 / hover:brightness-110 / emerald-400);
+    amber + red remain ONLY as stock warning/error semantics (low-stock
+    chips, flagged rows, red-400 validation + destructive actions).
+  * Hamburger sidebar: top-left Menu icon in Header toggles collapse
+    (desktop, w-64 <-> w-20) or overlay drawer (mobile); sidebar uses
+    rounded pill items (active bg-[#00D06C] text-black font-semibold) and
+    green isometric cube logo with "Inventory System" branding.
+  * Inventory header section in ControlBar: "Inventory" title,
+    "Manage your products and stock." description, top search input
+    ("Search product name, ID, or category..."), emerald "+ Add Product"
+    (bg-[#00D06C] text-slate-950 font-bold rounded-lg hover:brightness-110).
+  * ProductTable dark spec: #121920 uppercase xs header, alternating dark
+    rows, text-slate-100/white, P120.00 currency, emerald pencil edit +
+    red trash delete icon actions.
+  * Forms: emerald focus (border + ring-1), per-field red-400 error text
+    under fields with border-red-500, ProductModal success screen with
+    bg-emerald-500/20 text-emerald-400 check circle and emerald
+    "View Inventory" / "Add Another Product" actions.
+  * tailwind.config neon palette/box-shadows recolored to emerald; global
+    focus ring + ::selection emerald (#00D06C).
 
 [ACCESSIBILITY & UX RULES]
 - Body/label text >= 14px (tailwind fontSize.xs/sm overridden; text-[11px]
   removed). Interactive controls use min-h-[44px] / h-11 w-11.
-- Global focus ring: 2px solid #fbbf24 (amber) with offset (index.css).
-- Palette: onyx slate-950/900 surfaces, amber-400/500 + yellow accents,
-  white data tables for reading contrast; status colors keep 4.5:1+.
+- Global focus ring: 2px solid #00D06C (emerald) with offset (index.css).
+- Palette: obsidian #0B1015 / card #151D24 / border #222E3A, emerald brand
+  accents (#00D06C, emerald-400/500), white headings, slate-300 secondary,
+  red-400 errors; amber only for stock warnings; status colors keep 4.5:1+.
 - Reduced-motion media query disables animations/transitions.
 
 [VIEW STATES]
 - Primary nav lives in Sidebar: "Dashboard" (Inventory Table, default),
   "Analytics", "Low-Stock Alerts" (badge = critical count), "Audit Logs".
-  Mobile: Menu button in Header opens overlay drawer; desktop: fixed left
-  rail that collapses to icon-only (main content pl-20 collapsed / pl-64
-  expanded via lg:pl-* on the App wrapper).
-- Inventory table renders as a white high-contrast card; all other panels
-  are dark slate-900 cards with amber-500/20 borders and p-6 padding.
+  Top-left hamburger Menu button: mobile opens overlay drawer; desktop
+  collapses rail to icon-only (main content pl-20 collapsed / pl-64
+  expanded via lg:pl-* on the App wrapper, localStorage persistence).
+- Inventory view: ControlBar header card (Inventory title + description +
+  search) sits above the dark ProductTable card; Analytics view hides
+  ControlBar (search/filters only affect the table).
 - LowStockBanner renders only when quantity <= min_reorder_level items exist.
 - Alert Manager toggles highlightAlerts -> amber row highlight in ProductTable.
 - "View N Alerts" expands the drawer (chips hidden while expanded); each

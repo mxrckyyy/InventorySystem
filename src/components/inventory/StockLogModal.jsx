@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+﻿import { useEffect, useState } from 'react';
 import { History, Inbox, X } from 'lucide-react';
 import { supabase } from '../../lib/supabaseClient.js';
 
@@ -7,15 +7,15 @@ function toMessage(error) {
 }
 
 function formatTimestamp(value) {
-  if (!value) return '—';
+  if (!value) return 'â€”';
   const date = new Date(value);
-  if (Number.isNaN(date.getTime())) return '—';
+  if (Number.isNaN(date.getTime())) return 'â€”';
   return date.toLocaleString();
 }
 
 function shortId(id) {
-  if (!id) return '—';
-  return `${String(id).slice(0, 8)}…`;
+  if (!id) return 'â€”';
+  return `${String(id).slice(0, 8)}â€¦`;
 }
 
 export default function StockLogModal({ isOpen, product = null, products = [], onClose }) {
@@ -86,7 +86,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
   };
 
   const heading = product
-    ? `Stock History — ${product.name}`
+    ? `Stock History â€” ${product.name}`
     : 'Stock Audit Trail';
 
   return (
@@ -96,18 +96,18 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
         if (event.target === event.currentTarget) onClose?.();
       }}
     >
-      <aside className="flex h-full w-full max-w-2xl animate-slide-in flex-col border-l border-amber-500/20 bg-slate-900 shadow-2xl">
-        <div className="flex items-start justify-between gap-3 border-b border-slate-800 px-5 py-4">
+      <aside className="flex h-full w-full max-w-2xl animate-slide-in flex-col border-l border-[#222E3A] bg-[#151D24] shadow-2xl">
+        <div className="flex items-start justify-between gap-3 border-b border-[#1E293B] px-5 py-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-amber-500/15 text-amber-300">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-emerald-500/40 bg-emerald-500/15 text-emerald-400">
               <History size={18} />
             </div>
             <div>
               <h2 className="text-base font-semibold text-slate-50">{heading}</h2>
               <p className="text-sm text-slate-300">
                 {product
-                  ? `SKU ${product.sku} · most recent first`
-                  : 'All stock movements · most recent first'}
+                  ? `SKU ${product.sku} Â· most recent first`
+                  : 'All stock movements Â· most recent first'}
               </p>
             </div>
           </div>
@@ -116,7 +116,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
             type="button"
             onClick={onClose}
             aria-label="Close stock history"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-red-500/60 hover:text-red-400 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500"
           >
             <X size={18} />
           </button>
@@ -125,16 +125,16 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
         <div className="flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex flex-col items-center justify-center gap-3 py-20 text-slate-300">
-              <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-amber-400" />
+              <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-emerald-400" />
               <span className="text-sm">Loading stock logs...</span>
             </div>
           ) : error ? (
-            <div className="m-5 rounded-xl border border-rose-400/50 bg-rose-500/15 px-4 py-3 text-sm text-rose-100">
+            <div className="m-5 rounded-xl border border-red-500/40 bg-red-500/10 px-4 py-3 text-sm text-red-400">
               {error}
             </div>
           ) : logs.length === 0 ? (
             <div className="flex flex-col items-center justify-center gap-3 px-5 py-20 text-center">
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-600 bg-slate-950/60 text-slate-400">
+              <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-[#273544] bg-[#0F161E] text-slate-400">
                 <Inbox size={22} />
               </div>
               <p className="text-sm font-medium text-slate-200">No stock logs yet</p>
@@ -144,8 +144,8 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
             </div>
           ) : (
             <table className="w-full text-left text-sm">
-              <thead className="sticky top-0 bg-slate-900/95 backdrop-blur">
-                <tr className="border-b border-slate-800 text-sm uppercase tracking-wider text-slate-300">
+              <thead className="sticky top-0 bg-[#151D24]/95 backdrop-blur">
+                <tr className="border-b border-[#1E293B] text-xs font-semibold uppercase tracking-wider text-slate-300">
                   <th className="px-5 py-3 font-semibold">Timestamp</th>
                   <th className="px-5 py-3 font-semibold">Product</th>
                   <th className="px-5 py-3 font-semibold">Change</th>
@@ -161,7 +161,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
                   return (
                     <tr
                       key={log.id}
-                      className="border-b border-slate-800/70 transition hover:bg-slate-950/50"
+                      className="border-b border-[#1E293B] transition hover:bg-black/20"
                     >
                       <td className="whitespace-nowrap px-5 py-3 text-xs text-slate-400">
                         {formatTimestamp(log.created_at)}
@@ -172,7 +172,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
                             <span className="block font-medium text-slate-100">
                               {embedded.name}
                             </span>
-                            <span className="block font-mono text-sm text-amber-300">
+                            <span className="block font-mono text-sm text-emerald-400">
                               {embedded.sku}
                             </span>
                           </>
@@ -188,8 +188,8 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
                             isPositive
                               ? 'border-emerald-500/40 bg-emerald-500/10 text-emerald-300'
                               : change < 0
-                                ? 'border-rose-500/40 bg-rose-500/10 text-rose-300'
-                                : 'border-slate-700 bg-slate-950/60 text-slate-400'
+                                ? 'border-red-500/40 bg-red-500/10 text-red-400'
+                                : 'border-[#273544] bg-[#0F161E] text-slate-400'
                           }`}
                         >
                           {isPositive ? '+' : ''}
@@ -209,11 +209,11 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
           )}
         </div>
 
-        <div className="flex items-center justify-between border-t border-slate-800 px-5 py-3 text-sm text-slate-400">
+        <div className="flex items-center justify-between border-t border-[#1E293B] px-5 py-3 text-sm text-slate-300">
           <span>
-            {loading ? 'Loading…' : `${logs.length} log${logs.length === 1 ? '' : 's'}`}
+            {loading ? 'Loadingâ€¦' : `${logs.length} log${logs.length === 1 ? '' : 's'}`}
           </span>
-          <span>Newest first · max 250 entries</span>
+          <span>Newest first Â· max 250 entries</span>
         </div>
       </aside>
     </div>
