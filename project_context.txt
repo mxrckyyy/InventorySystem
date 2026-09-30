@@ -53,9 +53,13 @@ untracked local .env.local; never commit credentials to the repository)
   per-field red validation, emerald primary action)
 - src/components/common/ -> Header (top-left hamburger Menu toggle for the
   sidebar), ControlBar (inventory header card: "Inventory" title + "Manage
-  your products and stock." + top search bar + category/quick filters +
-  emerald "+ Add Product"), AuthGate, LowStockBanner (emerald CTAs,
-  amber/red warning semantics kept)
+  your products and stock.", then toolbar row `flex flex-col md:flex-row
+  items-stretch md:items-center justify-between gap-4 p-4 bg-slate-900/50
+  border border-slate-800 rounded-xl` - LEFT group: expandable search
+  "Search products by name, SKU...", category select, All/Low/Out pills +
+  inline "N results" counter; RIGHT group: outlined dark Audit Logs and
+  Export Excel, dominant emerald "+ Add Product"; all controls h-10),
+  AuthGate, LowStockBanner (emerald CTAs, amber/red warning semantics kept)
 - src/components/dashboard/ -> MetricsBar, StatCard (bg-[#151D24]
   border-[#222E3A], emerald icon accents; amber/rose tones only for warning
   metrics), AnalyticsView (emerald chart palette, #151D24 panels)
@@ -146,10 +150,21 @@ Phase 7 - EMERALD GREEN UI REFACTOR + HAMBURGER SIDEBAR:
     "View Inventory" / "Add Another Product" actions.
   * tailwind.config neon palette/box-shadows recolored to emerald; global
     focus ring + ::selection emerald (#00D06C).
+Phase 8 - TOOLBAR / CONTROL BAR LAYOUT REFACTOR:
+  * ControlBar toolbar split into LEFT search group (search input with
+    "Search products by name, SKU..." placeholder, category dropdown,
+    All / Low Stock / Out of Stock pills, subtle inline "N results" text)
+    and RIGHT action group (outlined dark Audit Logs + Export Excel,
+    dominant emerald "+ Add Product") via `flex flex-col md:flex-row
+    items-stretch md:items-center justify-between gap-4`.
+  * Toolbar wrapped in `p-4 bg-slate-900/50 border border-slate-800
+    rounded-xl`; consistent h-10 heights on inputs, selects, pills and
+    buttons; result counter is plain secondary text (no badge/button look).
 
 [ACCESSIBILITY & UX RULES]
 - Body/label text >= 14px (tailwind fontSize.xs/sm overridden; text-[11px]
-  removed). Interactive controls use min-h-[44px] / h-11 w-11.
+  removed). Interactive controls use min-h-[44px] / h-11 w-11, except the
+  ControlBar toolbar which uses consistent h-10 heights per layout spec.
 - Global focus ring: 2px solid #00D06C (emerald) with offset (index.css).
 - Palette: obsidian #0B1015 / card #151D24 / border #222E3A, emerald brand
   accents (#00D06C, emerald-400/500), white headings, slate-300 secondary,
