@@ -37,7 +37,7 @@ export default function LowStockBanner({
     ? isCritical
       ? 'border-rose-400/60 bg-rose-500/20 text-rose-100 focus-visible:ring-rose-300'
       : 'border-amber-400/60 bg-amber-500/20 text-amber-100 focus-visible:ring-amber-300'
-    : 'border-slate-600 bg-slate-950/60 text-slate-200 hover:border-slate-400 hover:text-slate-50 focus-visible:ring-slate-400';
+    : 'border-amber-500 bg-amber-500 text-slate-950 hover:bg-amber-400 focus-visible:ring-amber-400';
 
   return (
     <section
@@ -150,7 +150,7 @@ export default function LowStockBanner({
             <button
               type="button"
               onClick={onShowAll}
-              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-950/60 px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:border-sky-500/50 hover:text-sky-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+              className="inline-flex min-h-[44px] items-center gap-1.5 rounded-xl border border-slate-600 bg-slate-950/60 px-3.5 py-2 text-sm font-medium text-slate-300 transition hover:border-amber-500/50 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
             >
               <ListFilter size={15} />
               Show all in table

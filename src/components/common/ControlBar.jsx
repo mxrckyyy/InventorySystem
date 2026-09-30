@@ -28,7 +28,7 @@ export default function ControlBar({
   canWrite = true
 }) {
   return (
-    <section className="rounded-2xl border border-slate-800 bg-slate-900/70 p-4 backdrop-blur">
+    <section className="rounded-2xl border border-amber-500/20 bg-slate-900 p-6">
       <div className="flex flex-col gap-3 xl:flex-row xl:items-center xl:justify-between">
         <div className="flex flex-1 flex-col gap-3 sm:flex-row">
           <div className="relative flex-1">
@@ -42,7 +42,7 @@ export default function ControlBar({
               onChange={(event) => onSearchChange?.(event.target.value)}
               placeholder="Search by name or SKU..."
               aria-label="Search products"
-              className="min-h-[44px] w-full rounded-xl border border-slate-700 bg-slate-950/80 py-3 pl-10 pr-4 text-sm text-slate-100 placeholder-slate-400 outline-none transition focus:border-sky-400/70 focus:ring-2 focus:ring-sky-400/40"
+              className="min-h-[44px] w-full rounded-xl border border-slate-700 bg-slate-950/80 py-3 pl-10 pr-4 text-sm text-slate-100 placeholder-slate-400 outline-none transition focus:border-amber-400/70 focus:ring-2 focus:ring-amber-400/40"
             />
           </div>
 
@@ -51,7 +51,7 @@ export default function ControlBar({
               value={selectedCategory}
               onChange={(event) => onCategoryChange?.(event.target.value)}
               aria-label="Filter by category"
-              className="min-h-[44px] w-full appearance-none rounded-xl border border-slate-700 bg-slate-950/80 py-3 pl-4 pr-10 text-sm text-slate-100 outline-none transition focus:border-sky-400/70 focus:ring-2 focus:ring-sky-400/40"
+              className="min-h-[44px] w-full appearance-none rounded-xl border border-slate-700 bg-slate-950/80 py-3 pl-4 pr-10 text-sm text-slate-100 outline-none transition focus:border-amber-400/70 focus:ring-2 focus:ring-amber-400/40"
             >
               <option value="all">All Categories</option>
               {categories.map((category) => (
@@ -87,9 +87,9 @@ export default function ControlBar({
                   type="button"
                   onClick={() => onQuickFilterChange?.(filter.id)}
                   aria-pressed={active}
-                  className={`inline-flex min-h-[44px] items-center rounded-xl border px-3.5 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
+                  className={`inline-flex min-h-[44px] items-center rounded-xl border px-3.5 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${
                     active
-                      ? 'border-sky-400/60 bg-sky-500/15 text-sky-200'
+                      ? 'border-amber-400/60 bg-amber-500/15 text-amber-200'
                       : 'border-slate-700 bg-slate-950/60 text-slate-300 hover:border-slate-500 hover:text-slate-100'
                   }`}
                 >
@@ -109,7 +109,7 @@ export default function ControlBar({
             <button
               type="button"
               onClick={onAuditLogsClick}
-              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-950/60 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-sky-500/50 hover:text-sky-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-slate-700 bg-slate-950/60 px-4 py-2.5 text-sm font-semibold text-slate-200 transition hover:border-amber-500/50 hover:text-amber-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
             >
               <History size={17} />
               Audit Logs
@@ -129,7 +129,7 @@ export default function ControlBar({
               onClick={onAddClick}
               disabled={!canWrite}
               title={canWrite ? undefined : 'Admin access required'}
-              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-sky-400/50 bg-sky-500/20 px-5 py-2.5 text-sm font-semibold text-sky-200 transition hover:bg-sky-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 disabled:cursor-not-allowed disabled:border-slate-700 disabled:bg-slate-900 disabled:text-slate-500"
+              className="inline-flex min-h-[44px] items-center justify-center gap-2 rounded-xl border border-amber-500 bg-amber-500 px-5 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-amber-400 hover:shadow-[0_0_18px_rgba(251,191,36,0.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:cursor-not-allowed disabled:border-slate-700 disabled:bg-slate-800 disabled:text-slate-500 disabled:shadow-none"
             >
               <Plus size={17} strokeWidth={2.5} />
               Add Product

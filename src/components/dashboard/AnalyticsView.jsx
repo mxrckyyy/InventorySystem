@@ -18,29 +18,29 @@ import { supabase } from '../../lib/supabaseClient.js';
 import { formatPHP } from '../../utils/currency.js';
 
 const PALETTE = [
-  '#38bdf8',
-  '#34d399',
+  '#f59e0b',
   '#fbbf24',
-  '#fb7185',
-  '#a78bfa',
-  '#f472b6',
-  '#93c5fd',
-  '#4ade80'
+  '#facc15',
+  '#d97706',
+  '#fcd34d',
+  '#eab308',
+  '#b45309',
+  '#fde68a'
 ];
 
 const tooltipStyle = {
-  backgroundColor: '#0f172a',
-  border: '1px solid #334155',
+  backgroundColor: '#0c0a09',
+  border: '1px solid #f59e0b55',
   borderRadius: '12px',
-  color: '#f1f5f9',
+  color: '#f5f5f4',
   fontSize: 14
 };
 
 function Panel({ title, subtitle, icon: Icon, children }) {
   return (
-    <div className="rounded-2xl border border-slate-800 bg-slate-900/70 p-5 backdrop-blur">
+    <div className="rounded-2xl border border-amber-500/20 bg-slate-900 p-6">
       <div className="mb-4 flex items-center gap-2.5">
-        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-sky-500/40 bg-sky-500/15 text-sky-300">
+        <div className="flex h-8 w-8 items-center justify-center rounded-lg border border-amber-500/40 bg-amber-500/15 text-amber-400">
           <Icon size={15} />
         </div>
         <div>
@@ -213,7 +213,7 @@ export default function AnalyticsView({ products = [] }) {
                   />
                   <Tooltip
                     contentStyle={tooltipStyle}
-                    cursor={{ fill: 'rgba(56,189,248,0.08)' }}
+                    cursor={{ fill: 'rgba(245,158,11,0.10)' }}
                     formatter={(value) => [formatPHP(value), 'Valuation']}
                   />
                   <Bar dataKey="valuation" radius={[0, 8, 8, 0]}>
@@ -288,7 +288,7 @@ export default function AnalyticsView({ products = [] }) {
       >
         {logsLoading ? (
           <div className="flex h-72 flex-col items-center justify-center gap-3 text-slate-300">
-            <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-sky-400" />
+            <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-amber-400" />
             <span className="text-sm">Loading stock movement...</span>
           </div>
         ) : logsError ? (
@@ -306,8 +306,8 @@ export default function AnalyticsView({ products = [] }) {
               >
                 <defs>
                   <linearGradient id="netGradient" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="0%" stopColor="#38bdf8" stopOpacity={0.45} />
-                    <stop offset="100%" stopColor="#38bdf8" stopOpacity={0.02} />
+                    <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.45} />
+                    <stop offset="100%" stopColor="#f59e0b" stopOpacity={0.02} />
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" stroke="#334155" />
@@ -320,14 +320,14 @@ export default function AnalyticsView({ products = [] }) {
                 <YAxis tick={{ fill: '#94a3b8', fontSize: 13 }} stroke="#334155" width={48} />
                 <Tooltip
                   contentStyle={tooltipStyle}
-                  cursor={{ stroke: '#38bdf8', strokeWidth: 1, strokeDasharray: '4 4' }}
+                  cursor={{ stroke: '#f59e0b', strokeWidth: 1, strokeDasharray: '4 4' }}
                   formatter={(value, name) => [value, name === 'net' ? 'Net change' : name]}
                 />
                 <Area
                   type="monotone"
                   dataKey="net"
                   name="net"
-                  stroke="#38bdf8"
+                  stroke="#f59e0b"
                   strokeWidth={2}
                   fill="url(#netGradient)"
                 />

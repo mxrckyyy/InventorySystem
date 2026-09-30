@@ -42,19 +42,28 @@ untracked local .env.local; never commit credentials to the repository)
   (handleLocateProduct / handleShowAllAlerts / handleNavigate)
 - src/context/AuthContext.jsx -> user, role (Admin/Viewer), login, signup, logout
 - src/hooks/useInventory.js -> product CRUD, filters, realtime subscriptions
-- src/lib/supabaseClient.js -> Supabase singleton
+- src/lib/supabaseClient.js -> Supabase singleton; reads VITE_* env vars,
+  console.error when missing, falls back to non-empty placeholder strings so
+  builds never crash (no hardcoded project domains)
 - src/utils/currency.js -> formatPHP / formatPHPCompact (₱ formatter)
 - src/utils/exportExcel.js -> SheetJS workbook builder (typed cells, ₱ number
   format, auto column widths, autofilter) + browser download; replaces old CSV
 - src/components/auth/ -> AuthModal (dark-neon login/signup modal form)
-- src/components/common/ -> Header (hamburger trigger), ControlBar (search,
-  category, quick-filter chips, action group), AuthGate, LowStockBanner
-- src/components/dashboard/ -> MetricsBar, StatCard, AnalyticsView
-- src/components/inventory/ -> ProductTable (tr id=product-row-{id} for jump
-  scrolling), ProductModal (auto-SKU + numeric focus/blur UX), StockLogModal
+- src/components/common/ -> Header (top-left sidebar toggle: Menu icon on
+  mobile / PanelLeftClose-Open on desktop), ControlBar (dark amber-bordered
+  action card: search, category, quick-filter chips, action group),
+  AuthGate, LowStockBanner
+- src/components/dashboard/ -> MetricsBar, StatCard (bg-slate-900,
+  border-amber-500/20, amber icon accents), AnalyticsView (amber chart palette)
+- src/components/inventory/ -> ProductTable (WHITE high-contrast card:
+  bg-white text-slate-900 border-slate-200, dark header bar, amber hovers;
+  tr id=product-row-{id} for jump scrolling), ProductModal (auto-SKU +
+  numeric focus/blur UX), StockLogModal
 - src/components/layout/Sidebar.jsx -> primary nav: Dashboard, Analytics,
-  Low-Stock Alerts (badge count), Audit Logs; persistent w-64 rail on lg+,
-  overlay drawer with backdrop on mobile (Escape/backdrop close, body lock)
+  Low-Stock Alerts (badge count), Audit Logs. COLLAPSIBLE: desktop rail
+  w-64 <-> w-20 icon-only (chevron button at sidebar foot + Header toggle),
+  state persisted in localStorage key 'inv-sidebar-collapsed'; mobile keeps
+  overlay drawer (Escape/backdrop close, body lock)
 
 [AUTH & ROLE-BASED ACCESS]
 - Auth gate: unauthenticated users only see AuthGate (login / signup).
@@ -92,19 +101,36 @@ Phase 5 - Responsive sidebar nav (src/components/layout/Sidebar.jsx) replacing
   44px min touch targets on interactive controls, global :focus-visible
   ring, prefers-reduced-motion support, slate-400+ text for contrast,
   soft slate palette with muted sky accents (harsh neon glows removed).
+Phase 6 - ONYX + AMBER UI OVERHAUL:
+  * Collapsible sidebar drawer: desktop icon-only mode (w-20) <-> expanded
+    (w-64) with smooth width/padding transitions, Header top-left toggle
+    (Menu on mobile opens overlay, panel icon toggles collapse on desktop),
+    footer chevron collapse button, localStorage persistence.
+  * Palette: onyx bg-slate-950 + amber/yellow accents - solid amber primary
+    buttons (bg-amber-500 hover:bg-amber-400 text-slate-950), amber active
+    nav/focus rings (#fbbf24), amber-bordered KPI cards, amber chart palette
+    (all sky/cyan classes removed from src).
+  * ProductTable redesigned as crisp WHITE card (bg-white, border-slate-200,
+    slate-900 text, slate-50 header row, amber tinted hovers/flags, light
+    status badges) wrapped by a dark action header; ControlBar is a dark
+    amber-bordered card; spacing standardized to p-6 / gap-6 / space-y-6.
 
 [ACCESSIBILITY & UX RULES]
 - Body/label text >= 14px (tailwind fontSize.xs/sm overridden; text-[11px]
   removed). Interactive controls use min-h-[44px] / h-11 w-11.
-- Global focus ring: 2px solid #7dd3fc with offset (index.css).
-- Palette: neutral slate dark surfaces, sky-400 accents, low-opacity glows;
-  avoid saturated neon. Status colors keep 4.5:1+ text contrast.
+- Global focus ring: 2px solid #fbbf24 (amber) with offset (index.css).
+- Palette: onyx slate-950/900 surfaces, amber-400/500 + yellow accents,
+  white data tables for reading contrast; status colors keep 4.5:1+.
 - Reduced-motion media query disables animations/transitions.
 
 [VIEW STATES]
 - Primary nav lives in Sidebar: "Dashboard" (Inventory Table, default),
   "Analytics", "Low-Stock Alerts" (badge = critical count), "Audit Logs".
-  Mobile: hamburger in Header opens overlay drawer; desktop: fixed left rail.
+  Mobile: Menu button in Header opens overlay drawer; desktop: fixed left
+  rail that collapses to icon-only (main content pl-20 collapsed / pl-64
+  expanded via lg:pl-* on the App wrapper).
+- Inventory table renders as a white high-contrast card; all other panels
+  are dark slate-900 cards with amber-500/20 borders and p-6 padding.
 - LowStockBanner renders only when quantity <= min_reorder_level items exist.
 - Alert Manager toggles highlightAlerts -> amber row highlight in ProductTable.
 - "View N Alerts" expands the drawer (chips hidden while expanded); each

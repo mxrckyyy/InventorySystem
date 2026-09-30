@@ -1,4 +1,4 @@
-import { Suspense, lazy, useMemo, useState } from 'react';
+import { Suspense, lazy, useEffect, useMemo, useState } from 'react';
 import { CircleAlert, X } from 'lucide-react';
 import useInventory from './hooks/useInventory.js';
 import { useAuth } from './context/AuthContext.jsx';
@@ -46,6 +46,36 @@ export default function App() {
   const [highlightAlerts, setHighlightAlerts] = useState(false);
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [quickFilter, setQuickFilter] = useState('all');
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(() => {
+    try {
+      return window.localStorage.getItem('inv-sidebar-collapsed') === '1';
+    } catch {
+      return false;
+    }
+  });
+
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(
+        'inv-sidebar-collapsed',
+        sidebarCollapsed ? '1' : '0'
+      );
+    } catch {
+      /* storage unavailable — state stays session-only */
+    }
+  }, [sidebarCollapsed]);
+
+  const handleToggleSidebar = () => {
+    const isDesktop =
+      typeof window !== 'undefined' &&
+      window.matchMedia('(min-width: 1024px)').matches;
+
+    if (isDesktop) {
+      setSidebarCollapsed((prev) => !prev);
+      return;
+    }
+    setSidebarOpen((prev) => !prev);
+  };
 
   const alertCount = useMemo(
     () =>
@@ -168,7 +198,7 @@ export default function App() {
   if (initializing) {
     return (
       <div className="flex min-h-screen flex-col items-center justify-center gap-3 bg-slate-950">
-        <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-sky-400" />
+        <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-amber-400" />
         <p className="text-sm text-slate-300">Booting inventory console...</p>
       </div>
     );
@@ -182,23 +212,30 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-slate-950 text-slate-100">
-      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(148,163,184,0.08),transparent_60%)]" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(ellipse_at_top,rgba(245,158,11,0.06),transparent_60%)]" />
 
       <Sidebar
         view={view}
         alertCount={alertCount}
         alertsActive={highlightAlerts}
+        collapsed={sidebarCollapsed}
+        onToggleCollapse={() => setSidebarCollapsed((prev) => !prev)}
         onNavigate={handleNavigate}
         onOpenLogs={() => handleViewLogs(null)}
         mobileOpen={sidebarOpen}
         onMobileClose={() => setSidebarOpen(false)}
       />
 
-      <div className="relative lg:pl-64">
-        <div className="mx-auto w-full max-w-6xl space-y-5 px-4 py-6 sm:px-6 lg:px-8 lg:py-8">
+      <div
+        className={`relative transition-[padding] duration-300 ease-out ${
+          sidebarCollapsed ? 'lg:pl-20' : 'lg:pl-64'
+        }`}
+      >
+        <div className="mx-auto w-full max-w-6xl space-y-6 px-4 py-6 sm:px-6 lg:px-6">
           <Header
             productCount={products.length}
-            onMenuClick={() => setSidebarOpen(true)}
+            sidebarCollapsed={sidebarCollapsed}
+            onToggleSidebar={handleToggleSidebar}
           />
 
           <div id="low-stock-banner" className="scroll-mt-6">
@@ -255,8 +292,8 @@ export default function App() {
           {view === VIEW_ANALYTICS ? (
             <Suspense
               fallback={
-                <section className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-slate-800 bg-slate-900/70 py-20">
-                  <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-sky-400" />
+                <section className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-amber-500/20 bg-slate-900 py-20">
+                  <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-amber-400" />
                   <p className="text-sm text-slate-300">Loading analytics engine...</p>
                 </section>
               }
@@ -264,8 +301,8 @@ export default function App() {
               <AnalyticsView products={products} />
             </Suspense>
           ) : isInitialLoad ? (
-            <section className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-slate-800 bg-slate-900/70 py-20">
-              <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-sky-400" />
+            <section className="flex flex-col items-center justify-center gap-3 rounded-2xl border border-amber-500/20 bg-slate-900 py-20">
+              <span className="h-8 w-8 animate-spin rounded-full border-2 border-slate-700 border-t-amber-400" />
               <p className="text-sm text-slate-300">Fetching inventory from Supabase...</p>
             </section>
           ) : (

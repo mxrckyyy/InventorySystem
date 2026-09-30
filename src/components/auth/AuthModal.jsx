@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from 'react';
+﻿import { useEffect, useRef, useState } from 'react';
 import { ArrowRight, Boxes, Eye, KeyRound, Lock, Mail, ShieldCheck, Sparkles, X } from 'lucide-react';
 import { ADMIN_ROLE, VIEWER_ROLE, useAuth } from '../../context/AuthContext.jsx';
 
 const inputClass =
-  'w-full min-h-[44px] rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder-slate-400 outline-none transition focus:border-sky-400/70 focus:ring-2 focus:ring-sky-400/40';
+  'w-full min-h-[44px] rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder-slate-400 outline-none transition focus:border-amber-400/70 focus:ring-2 focus:ring-amber-400/40';
 
 function Field({ label, icon: Icon, children }) {
   return (
@@ -110,7 +110,7 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
 
       <div className="relative w-full max-w-md">
         <div className="mb-6 flex flex-col items-center text-center">
-          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-sky-500/40 bg-sky-500/15 text-sky-300">
+          <div className="mb-3 flex h-14 w-14 items-center justify-center rounded-2xl border border-amber-500/40 bg-amber-500/15 text-amber-300">
             <Boxes size={28} strokeWidth={2} />
           </div>
           <h1 className="text-2xl font-bold tracking-tight text-slate-50">
@@ -127,7 +127,7 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
               type="button"
               onClick={onClose}
               aria-label="Close auth modal"
-              className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+              className="absolute right-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
             >
               <X size={18} />
             </button>
@@ -143,9 +143,9 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
               role="tab"
               aria-selected={mode === 'login'}
               onClick={() => switchMode('login')}
-              className={`min-h-[44px] rounded-lg px-3 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
+              className={`min-h-[44px] rounded-lg px-3 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${
                 mode === 'login'
-                  ? 'bg-sky-500/15 text-sky-200'
+                  ? 'bg-amber-500 text-slate-950'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -156,9 +156,9 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
               role="tab"
               aria-selected={mode === 'signup'}
               onClick={() => switchMode('signup')}
-              className={`min-h-[44px] rounded-lg px-3 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
+              className={`min-h-[44px] rounded-lg px-3 py-2 text-sm font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${
                 mode === 'signup'
-                  ? 'bg-sky-500/15 text-sky-200'
+                  ? 'bg-amber-500 text-slate-950'
                   : 'text-slate-400 hover:text-slate-200'
               }`}
             >
@@ -185,7 +185,7 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
                 autoComplete={mode === 'login' ? 'current-password' : 'new-password'}
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                placeholder="••••••••"
+                placeholder="â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢"
                 className={`${inputClass} pl-9`}
               />
             </Field>
@@ -200,9 +200,9 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
                     type="button"
                     onClick={() => setRole(ADMIN_ROLE)}
                     aria-pressed={role === ADMIN_ROLE}
-                    className={`flex min-h-[44px] flex-col items-start gap-1 rounded-xl border p-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
+                    className={`flex min-h-[44px] flex-col items-start gap-1 rounded-xl border p-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${
                       role === ADMIN_ROLE
-                        ? 'border-sky-400/60 bg-sky-500/15 text-sky-100'
+                        ? 'border-amber-400/60 bg-amber-500/15 text-amber-100'
                         : 'border-slate-700 bg-slate-950/60 text-slate-300 hover:border-slate-500'
                     }`}
                   >
@@ -217,9 +217,9 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
                     type="button"
                     onClick={() => setRole(VIEWER_ROLE)}
                     aria-pressed={role === VIEWER_ROLE}
-                    className={`flex min-h-[44px] flex-col items-start gap-1 rounded-xl border p-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 ${
+                    className={`flex min-h-[44px] flex-col items-start gap-1 rounded-xl border p-3 text-left transition focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300 ${
                       role === VIEWER_ROLE
-                        ? 'border-sky-400/60 bg-sky-500/15 text-sky-100'
+                        ? 'border-amber-400/60 bg-amber-500/15 text-amber-100'
                         : 'border-slate-700 bg-slate-950/60 text-slate-300 hover:border-slate-500'
                     }`}
                   >
@@ -245,7 +245,7 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
             {info ? (
               <p
                 role="status"
-                className="rounded-lg border border-sky-400/50 bg-sky-500/15 px-3 py-2.5 text-sm text-sky-100"
+                className="rounded-lg border border-amber-400/50 bg-amber-500/15 px-3 py-2.5 text-sm text-amber-100"
               >
                 {info}
               </p>
@@ -254,7 +254,7 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-sky-400/50 bg-sky-500/20 px-5 py-3 text-sm font-semibold text-sky-100 transition hover:bg-sky-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex min-h-[44px] w-full items-center justify-center gap-2 rounded-xl border border-amber-500 bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-400 hover:shadow-[0_0_18px_rgba(251,191,36,0.4)] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? (
                 'Please wait...'
@@ -268,9 +268,9 @@ export default function AuthModal({ isOpen = true, onClose, title, subtitle }) {
           </form>
 
           <div className="mt-5 flex items-start gap-2 rounded-lg border border-slate-700 bg-slate-950/50 px-3 py-2.5 text-sm leading-relaxed text-slate-300">
-            <Sparkles size={15} className="mt-0.5 shrink-0 text-sky-400" />
+            <Sparkles size={15} className="mt-0.5 shrink-0 text-amber-400" />
             <span>
-              Roles are stored in Supabase <code className="text-sky-300">user_metadata.role</code>.
+              Roles are stored in Supabase <code className="text-amber-300">user_metadata.role</code>.
               Sign up as <strong className="text-slate-100">Admin</strong> to unlock Add / Edit /
               Delete and stock controls.
             </span>

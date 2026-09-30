@@ -96,10 +96,10 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
         if (event.target === event.currentTarget) onClose?.();
       }}
     >
-      <aside className="flex h-full w-full max-w-2xl animate-slide-in flex-col border-l border-sky-500/20 bg-slate-900 shadow-2xl">
+      <aside className="flex h-full w-full max-w-2xl animate-slide-in flex-col border-l border-amber-500/20 bg-slate-900 shadow-2xl">
         <div className="flex items-start justify-between gap-3 border-b border-slate-800 px-5 py-4">
           <div className="flex items-start gap-3">
-            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-sky-500/40 bg-sky-500/15 text-sky-300">
+            <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-amber-500/40 bg-amber-500/15 text-amber-300">
               <History size={18} />
             </div>
             <div>
@@ -116,7 +116,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
             type="button"
             onClick={onClose}
             aria-label="Close stock history"
-            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+            className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
           >
             <X size={18} />
           </button>
@@ -125,7 +125,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
         <div className="flex-1 overflow-y-auto">
           {loading ? (
             <div className="flex flex-col items-center justify-center gap-3 py-20 text-slate-300">
-              <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-sky-400" />
+              <span className="h-6 w-6 animate-spin rounded-full border-2 border-slate-600 border-t-amber-400" />
               <span className="text-sm">Loading stock logs...</span>
             </div>
           ) : error ? (
@@ -172,7 +172,7 @@ export default function StockLogModal({ isOpen, product = null, products = [], o
                             <span className="block font-medium text-slate-100">
                               {embedded.name}
                             </span>
-                            <span className="block font-mono text-sm text-sky-300">
+                            <span className="block font-mono text-sm text-amber-300">
                               {embedded.sku}
                             </span>
                           </>

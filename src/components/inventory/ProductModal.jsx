@@ -12,7 +12,7 @@ const EMPTY_FORM = {
 };
 
 const inputClass =
-  'w-full min-h-[44px] rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder-slate-400 outline-none transition focus:border-sky-400/70 focus:ring-2 focus:ring-sky-400/40';
+  'w-full min-h-[44px] rounded-xl border border-slate-700 bg-slate-950/80 px-3 py-3 text-sm text-slate-100 placeholder-slate-400 outline-none transition focus:border-amber-400/70 focus:ring-2 focus:ring-amber-400/40';
 
 function parseNumber(value, fallback = 0) {
   const parsed = Number(value);
@@ -221,7 +221,7 @@ export default function ProductModal({
             type="button"
             onClick={onClose}
             aria-label="Close modal"
-            className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+            className="flex h-11 w-11 items-center justify-center rounded-xl border border-slate-600 text-slate-300 transition hover:border-rose-400/60 hover:text-rose-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
           >
             <X size={18} />
           </button>
@@ -246,7 +246,7 @@ export default function ProductModal({
                     onClick={handleRegenerateSku}
                     aria-label="Regenerate product ID"
                     title="Regenerate product ID"
-                    className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-xl border border-slate-700 bg-slate-950/60 text-slate-300 transition hover:border-sky-500/60 hover:text-sky-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+                    className="flex h-[44px] w-[44px] shrink-0 items-center justify-center rounded-xl border border-slate-700 bg-slate-950/60 text-slate-300 transition hover:border-amber-500/60 hover:text-amber-300 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
                   >
                     <RefreshCw size={16} />
                   </button>
@@ -343,14 +343,14 @@ export default function ProductModal({
             <button
               type="button"
               onClick={onClose}
-              className="min-h-[44px] rounded-xl border border-slate-600 px-5 py-3 text-sm font-medium text-slate-200 transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300"
+              className="min-h-[44px] rounded-xl border border-slate-600 px-5 py-3 text-sm font-medium text-slate-200 transition hover:bg-slate-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-300"
             >
               Cancel
             </button>
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-sky-400/50 bg-sky-500/20 px-5 py-3 text-sm font-semibold text-sky-200 transition hover:bg-sky-500/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-sky-300 disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex min-h-[44px] items-center gap-2 rounded-xl border border-amber-500 bg-amber-500 px-5 py-3 text-sm font-semibold text-slate-950 transition hover:bg-amber-400 hover:shadow-[0_0_18px_rgba(251,191,36,0.35)] focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-400 focus-visible:ring-offset-2 focus-visible:ring-offset-slate-950 disabled:cursor-not-allowed disabled:opacity-50"
             >
               {submitting ? 'Saving...' : isEditMode ? 'Save Changes' : 'Add Product'}
             </button>
